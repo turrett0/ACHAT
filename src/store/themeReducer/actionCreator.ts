@@ -1,22 +1,35 @@
-import {themeActionTypes} from "./state";
+import {themeActionTypes, themeColorsInterface} from "./state";
 
-interface IToggleSystemColorScheme {
+interface toggleSystemColorSchemeInterface {
   type: themeActionTypes.TOGGLE_SYSTEM_COLOR_SCHEME;
 }
-interface ISetToggleSystemColorScheme {
+interface setToggleSystemColorSchemeInterface {
   type: themeActionTypes.SET_TOGGLE_SYSTEM_COLOR_SCHEME;
 }
 
+interface setSystemColorsInterface {
+  type: themeActionTypes.SET_THEME_COLORS;
+  payload: themeColorsInterface;
+}
+
 export const themeActionsObject = {
-  toggleSystemColorScheme: (): IToggleSystemColorScheme => ({
+  toggleSystemColorScheme: (): toggleSystemColorSchemeInterface => ({
     type: themeActionTypes.TOGGLE_SYSTEM_COLOR_SCHEME,
   }),
-  setToggleSystemColorScheme: (): ISetToggleSystemColorScheme => ({
+  setToggleSystemColorScheme: (): setToggleSystemColorSchemeInterface => ({
     type: themeActionTypes.SET_TOGGLE_SYSTEM_COLOR_SCHEME,
+  }),
+  setThemeColors: (
+    payload: themeColorsInterface
+  ): setSystemColorsInterface => ({
+    type: themeActionTypes.SET_THEME_COLORS,
+    payload: payload,
   }),
 };
 
-export type StyleActions = IToggleSystemColorScheme;
+export type StyleActions =
+  | toggleSystemColorSchemeInterface
+  | setSystemColorsInterface;
 
 // const Person = {
 //   name: "Barbek",

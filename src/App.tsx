@@ -8,18 +8,16 @@ import {Routes, Route} from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
 import ChatPage from "./Pages/ChatPage";
 import RequireAuth from "./hoc/RequireAuth";
-
-const theme = {
-  colors: {
-    mainBgBlue: " rgb(59, 77, 145)",
-    mainTextColor: "#FFFFFF",
-    mainBgColor: "#FFFFFF",
-  },
-};
+import {useSelector} from "react-redux";
+import {selectIsMenuOpen, selectThemeColors} from "./store/selectors";
+import Settings from "./components/Settings";
 
 //Слеплять сообщения подряд в один элемент
 
 const App: React.FC = () => {
+  const isMenuOpened = useSelector(selectIsMenuOpen);
+  const theme = useSelector(selectThemeColors);
+
   // const toggleToSystemColorScheme = useSelector(
   //   selectIsToggleSystemColorScheme
   // );
@@ -42,6 +40,7 @@ const App: React.FC = () => {
       <GlobalStyles />
       <div className="App">
         <Header />
+        {isMenuOpened && <Settings />}
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route

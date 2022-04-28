@@ -9,7 +9,9 @@ const MessageBody = styled.div.attrs(
 )`
   position: relative;
   background-color: ${(props) =>
-    props.author === "mine" ? props.theme.colors.mainBgBlue : "lightgray"};
+    props.author === "mine"
+      ? props.theme.mineMessageColor
+      : props.theme.strangerMessageColor};
   width: 40%;
   color: white;
   display: flex;
@@ -22,8 +24,16 @@ const MessageBody = styled.div.attrs(
   margin: 25px 15px 0 15px;
   border-radius: 0.5rem;
   padding: 5px 10px;
-  color: ${(props) => (props.author === "mine" ? "white" : "black")};
+  color: white;
   word-wrap: break-word;
+`;
+
+const Notification = styled.div`
+  align-self: center;
+  width: 25%;
+  text-align: center;
+  margin: 8px 0;
+  font-size: 12px;
 `;
 
 const MessageText = styled.span`
@@ -44,10 +54,11 @@ interface Props {
 const Message: React.FC<Props> = ({userInfo}) => {
   const {userData, body, time} = userInfo;
   const currentUserID = useSelector(selectUserID);
-  console.log(userData.id);
 
   const author = userData.id === currentUserID ? "mine" : "stranger";
-  return (
+  return userData.id === "system" ? (
+    <Notification>{body}</Notification>
+  ) : (
     <MessageBody author={author} color={userData.color}>
       <MessageText>{body}</MessageText>
       <div style={{alignSelf: "flex-end", height: "18"}}>

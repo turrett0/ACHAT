@@ -6,6 +6,6 @@ export function* messagesSaga() {
   yield takeEvery(messagesActionTypes.SET_NEW_MESSAGE, setNewMessageToStore);
 }
 function* setNewMessageToStore() {
-  const {setNewMessage} = messagesActionsObject;
+  // const {setNewMessage} = messagesActionsObject;
   //   yield put(setNewMessage("test"));
 }

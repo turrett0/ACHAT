@@ -2,9 +2,17 @@ import {IRootState} from ".";
 import {messagesStore} from "./messagesReducer/state";
 import {themeStore} from "./themeReducer/state";
 
+export const selectIsMenuOpen = (
+  state: IRootState
+): messagesStore["isMenuOpen"] => state.messagesReducer.isMenuOpen;
+
 export const selectIsToggleSystemColorScheme = (
   state: IRootState
 ): themeStore["systemColorScheme"] => state.themeReducer.systemColorScheme;
+
+export const selectThemeColors = (
+  state: IRootState
+): themeStore["themeColors"] => state.themeReducer.themeColors;
 
 export const selectNewMessages = (
   state: IRootState

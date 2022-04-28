@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {messageSocket} from "../api/websocket";
 import {AiOutlineArrowUp} from "react-icons/ai";
 import {useNavigate} from "react-router-dom";
+import useActions from "../hooks/useActions";
 
 const MessageWrapper = styled.div`
   display: flex;
@@ -12,7 +13,7 @@ const MessageWrapper = styled.div`
   position: fixed;
   bottom: 0;
   width: 100vw;
-  background-color: ${({theme}) => theme.colors.mainBgBlue};
+  background-color: ${({theme}) => theme.accentColor};
 `;
 const MessageInput = styled.input`
   width: 90%;
@@ -37,11 +38,13 @@ const MessageButton = styled.button`
 `;
 
 const MessageInputBar = () => {
+  const {clearMessages} = useActions();
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (inputRef.current && inputRef.current.value.length > 0) {
+      messageSocket.connect();
       messageSocket.emit("chatMessage", inputRef.current.value);
       inputRef.current.value = "";
     }
@@ -54,8 +57,9 @@ const MessageInputBar = () => {
   });
 
   const onDisconnectHandler = () => {
-    console.log("disco");
     messageSocket.emit("disconnectSession");
+    messageSocket.disconnect();
+    clearMessages();
     navigate("/login");
   };
 

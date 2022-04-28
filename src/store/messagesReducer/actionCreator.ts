@@ -5,6 +5,10 @@ import {
   userRegistrationData,
 } from "./state";
 
+export interface controlMenuInterface {
+  type: messagesActionTypes.CONTROL_MENU;
+}
+
 export interface setNewMessageInterface {
   type: messagesActionTypes.SET_NEW_MESSAGE;
   payload: messageInterface;
@@ -51,7 +55,8 @@ export type messagesActions =
   | setUsersInterface
   | setUserNameInterface
   | setCurrentRoomInterface
-  | clearMessagesInterface;
+  | clearMessagesInterface
+  | controlMenuInterface;
 
 export const messagesActionsObject = {
   setNewMessage: (payload: messageInterface): setNewMessageInterface => {
@@ -88,5 +93,8 @@ export const messagesActionsObject = {
   }),
   clearMessages: (): clearMessagesInterface => ({
     type: messagesActionTypes.CLEAR_MESSAGES,
+  }),
+  controlMenu: (): controlMenuInterface => ({
+    type: messagesActionTypes.CONTROL_MENU,
   }),
 };

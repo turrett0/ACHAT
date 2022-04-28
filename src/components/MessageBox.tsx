@@ -12,6 +12,7 @@ const MessageBoxComponent = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 60px;
+  height: 95vh;
 `;
 
 const MessageBox = ({children}: Props) => {

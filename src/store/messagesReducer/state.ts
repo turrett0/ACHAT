@@ -7,9 +7,12 @@ export enum messagesActionTypes {
   SET_USER_NAME = "SET_USER_NAME",
   SET_CURRENT_ROOM = "SET_CURRENT_ROOM",
   CLEAR_MESSAGES = "CLEAR_MESSAGES",
+  CONTROL_MENU = "CONTROL_MENU",
 }
 
 export type MessageType = "mine" | "stranger" | "system";
+
+export type controlMenuInterface = boolean;
 
 export interface messageInterface {
   userData: userInterface;
@@ -29,6 +32,7 @@ export type messagesStore = {
   userID: string;
   userName: string | null;
   users: Array<userInterface>;
+  isMenuOpen: boolean;
 };
 
 export type userRegistrationData = {

@@ -13,10 +13,16 @@ html {
 }
 
 body {
-    background:  ${({theme}) => theme.colors.mainBgColor};
 
+  background:   ${({theme}) => {
+    console.log();
+    return theme.bgColor;
+  }}
    
 }
+
+   
+
 
 
 body[data-autotheme=true]{

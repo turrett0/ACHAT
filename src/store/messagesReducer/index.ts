@@ -6,8 +6,9 @@ const initialState: messagesStore = {
   messages: [],
   userID: "",
   users: [],
-  userName: null,
+  userName: localStorage.getItem("userName"),
   room: "",
+  isMenuOpen: false,
 };
 
 export const messagesReducer = produce(
@@ -39,6 +40,9 @@ export const messagesReducer = produce(
         break;
       case messagesActionTypes.CLEAR_MESSAGES:
         draft.messages = [];
+        break;
+      case messagesActionTypes.CONTROL_MENU:
+        draft.isMenuOpen = !draft.isMenuOpen;
         break;
       default:
         break;
