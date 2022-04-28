@@ -66,7 +66,10 @@ const MessageInputBar = () => {
   return (
     <MessageWrapper>
       <MessageButton onClick={() => onDisconnectHandler()}>Выйти</MessageButton>
-      <form onSubmit={onSubmitHandler} style={{width: "100vw"}}>
+      <form
+        onSubmit={onSubmitHandler}
+        style={{width: "100vw", display: "flex", alignItems: "center"}}
+      >
         <MessageInput
           type="text"
           placeholder="Напишите что нибудь..."

@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import styled from "styled-components";
 import useActions from "../hooks/useActions";
 import {
+  selectIsDarkMode,
   selectIsMenuOpen,
   selectThemeColors,
   selectUserID,
@@ -11,8 +12,11 @@ import {
 import Message from "./Message";
 
 const SettingsWrapper = styled.div`
-  padding-top: 20px;
+  padding: 20px 0 40px 0;
   background: ${({theme}) => theme.bgColor};
+  border: 2px solid ${({theme}) => theme.textColor};
+  color: ${({theme}) => theme.textColor};
+  border-left: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,6 +26,7 @@ const SettingsWrapper = styled.div`
   width: 300px;
   z-index: 10;
   box-shadow: 13px 0px 8px 0px rgba(34, 60, 80, 0.2);
+  overflow: scroll;
 
   & .twitter-picker {
     margin: 14px 0;
@@ -47,7 +52,9 @@ const Settings = () => {
   const isMenuOpen = useSelector(selectIsMenuOpen);
   const userID = useSelector(selectUserID);
   const themeColors = useSelector(selectThemeColors);
-  const {setThemeColors, controlMenu} = useActions();
+  const isDarkMode = useSelector(selectIsDarkMode);
+  const {setThemeColors, controlMenu, setDarkMode, toggleSystemColorScheme} =
+    useActions();
 
   const closeMenuHandler = (e: MouseEvent) => {
     if (
@@ -124,6 +131,11 @@ const Settings = () => {
           }
         />
       </SettingsBlock>
+      <button onClick={toggleSystemColorScheme}>Set System color scheme</button>
+      <label>
+        <span>Dark Mode</span>
+        <input type="checkbox" checked={isDarkMode} onChange={setDarkMode} />
+      </label>
     </SettingsWrapper>
   );
 };

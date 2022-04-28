@@ -9,27 +9,25 @@ const GlobalStyles = createGlobalStyle`
 
 }
 
-html {
-}
-
 body {
-
-  background:   ${({theme}) => {
-    console.log();
-    return theme.bgColor;
-  }}
-   
-}
-
-   
-
-
-
-body[data-autotheme=true]{
-    @media(prefers-color-scheme: dark){
-        /* background-color: black; */
-    }
+  background:   ${({theme}) => theme.bgColor} 
 }
 `;
+
+export const defaultLightModeTheme = {
+  accentColor: "rgb(59, 77, 145)",
+  strangerMessageColor: "lightgray",
+  mineMessageColor: "rgb(59, 77, 145)",
+  textColor: "black",
+  bgColor: "white",
+};
+
+export const defaultDarkModeTheme = {
+  accentColor: "rgb(59, 77, 145)",
+  strangerMessageColor: "lightgray",
+  mineMessageColor: "rgb(59, 77, 145)",
+  textColor: "white",
+  bgColor: "rgb(29,30,32)",
+};
 
 export default GlobalStyles;

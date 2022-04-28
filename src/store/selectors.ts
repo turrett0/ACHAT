@@ -2,6 +2,9 @@ import {IRootState} from ".";
 import {messagesStore} from "./messagesReducer/state";
 import {themeStore} from "./themeReducer/state";
 
+export const selectIsDarkMode = (state: IRootState): themeStore["darkMode"] =>
+  state.themeReducer.darkMode;
+
 export const selectIsMenuOpen = (
   state: IRootState
 ): messagesStore["isMenuOpen"] => state.messagesReducer.isMenuOpen;

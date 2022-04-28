@@ -12,12 +12,13 @@ interface setSystemColorsInterface {
   payload: themeColorsInterface;
 }
 
+interface setDarkModeInterface {
+  type: themeActionTypes.SET_DARK_MODE;
+}
+
 export const themeActionsObject = {
   toggleSystemColorScheme: (): toggleSystemColorSchemeInterface => ({
     type: themeActionTypes.TOGGLE_SYSTEM_COLOR_SCHEME,
-  }),
-  setToggleSystemColorScheme: (): setToggleSystemColorSchemeInterface => ({
-    type: themeActionTypes.SET_TOGGLE_SYSTEM_COLOR_SCHEME,
   }),
   setThemeColors: (
     payload: themeColorsInterface
@@ -25,11 +26,15 @@ export const themeActionsObject = {
     type: themeActionTypes.SET_THEME_COLORS,
     payload: payload,
   }),
+  setDarkMode: (): setDarkModeInterface => ({
+    type: themeActionTypes.SET_DARK_MODE,
+  }),
 };
 
 export type StyleActions =
   | toggleSystemColorSchemeInterface
-  | setSystemColorsInterface;
+  | setSystemColorsInterface
+  | setDarkModeInterface;
 
 // const Person = {
 //   name: "Barbek",

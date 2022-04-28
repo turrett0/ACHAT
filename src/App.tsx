@@ -1,6 +1,9 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {ThemeProvider} from "styled-components";
-import GlobalStyles from "./GlobalStyles";
+import GlobalStyles, {
+  defaultDarkModeTheme,
+  defaultLightModeTheme,
+} from "./GlobalStyles";
 import Header from "./components/Header";
 import {Routes, Route} from "react-router-dom";
 // import {selectIsToggleSystemColorScheme, selectUserID} from "./store/selectors";
@@ -9,32 +12,40 @@ import LoginPage from "./Pages/LoginPage";
 import ChatPage from "./Pages/ChatPage";
 import RequireAuth from "./hoc/RequireAuth";
 import {useSelector} from "react-redux";
-import {selectIsMenuOpen, selectThemeColors} from "./store/selectors";
+import {
+  selectIsMenuOpen,
+  selectIsToggleSystemColorScheme,
+  selectThemeColors,
+} from "./store/selectors";
 import Settings from "./components/Settings";
+import useActions from "./hooks/useActions";
 
 //Слеплять сообщения подряд в один элемент
 
 const App: React.FC = () => {
   const isMenuOpened = useSelector(selectIsMenuOpen);
   const theme = useSelector(selectThemeColors);
+  const isAutoTheme = useSelector(selectIsToggleSystemColorScheme);
+  const {setThemeColors} = useActions();
+  useEffect(() => {
+    document.body.setAttribute("data-autotheme", String(isAutoTheme));
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (event) => {
+        const autoColorScheme = !event.matches
+          ? defaultLightModeTheme
+          : defaultDarkModeTheme;
+        setThemeColors(autoColorScheme);
+      });
 
-  // const toggleToSystemColorScheme = useSelector(
-  //   selectIsToggleSystemColorScheme
-  // );
+    //TODO: перезатирает тему при заходе / смене темы
+    // window.matchMedia &&
+    // window.matchMedia("(prefers-color-scheme: dark)").matches
+    //   ? setThemeColors(defaultDarkModeTheme)
+    //   : setThemeColors(defaultLightModeTheme);
+  }, [isAutoTheme]);
 
-  // const {setToggleSystemColorScheme} = useActions();
-
-  // useEffect(() => {
-  //   document.body.setAttribute(
-  //     "data-autotheme",
-  //     String(toggleToSystemColorScheme)
-  //   );
-  //   localStorage.setItem(
-  //     "systemColorScheme",
-  //     JSON.stringify(toggleToSystemColorScheme)
-  //   );
-  // }, [toggleToSystemColorScheme]);
-
+  console.log(theme);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
@@ -52,14 +63,6 @@ const App: React.FC = () => {
             }
           />
         </Routes>
-
-        {/* <button
-          onClick={() => {
-            setToggleSystemColorScheme();
-          }}
-          >
-          Auto theme
-        </button> */}
       </div>
     </ThemeProvider>
   );

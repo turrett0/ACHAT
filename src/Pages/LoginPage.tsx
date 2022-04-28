@@ -6,7 +6,6 @@ import useActions from "../hooks/useActions";
 
 const LoginForm = styled.form`
   border-radius: 4px;
-  height: 60vh;
 
   & input,
   & button {
@@ -14,6 +13,12 @@ const LoginForm = styled.form`
     padding: 10px;
     outline: none;
     margin-bottom: 10px;
+    background: none;
+    color: ${({theme}) => theme.textColor};
+  }
+
+  & input {
+    border: 1px solid ${({theme}) => theme.textColor};
   }
 
   & button {
@@ -39,6 +44,8 @@ const Wrapper = styled.div`
   & select {
     text-align: center;
     outline: none;
+    background: none;
+    color: ${({theme}) => theme.textColor};
   }
 `;
 
