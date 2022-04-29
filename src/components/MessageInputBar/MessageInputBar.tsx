@@ -1,44 +1,17 @@
-import {useEffect, useRef} from "react";
-import styled from "styled-components";
-import {messageSocket} from "../api/websocket";
+import {useRef} from "react";
+
+import {messageSocket} from "../../api/websocket";
 import {AiOutlineArrowUp} from "react-icons/ai";
 import {useNavigate} from "react-router-dom";
-import useActions from "../hooks/useActions";
-
-const MessageWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 3rem;
-  position: fixed;
-  bottom: 0;
-  width: 100vw;
-  background-color: ${({theme}) => theme.accentColor};
-`;
-const MessageInput = styled.input`
-  width: 90%;
-  height: 90%;
-  outline: none;
-  padding: 5px 10px;
-  border: none;
-  background: none;
-  color: white;
-  &::placeholder {
-    color: white;
-  }
-`;
-const MessageButton = styled.button`
-  color: #fff;
-  height: 90%;
-  cursor: pointer;
-  width: 8%;
-  background: none;
-  border: none;
-  outline: none;
-`;
+import useActions from "../../hooks/useActions";
+import {
+  MessageWrapper,
+  MessageButton,
+  MessageInput,
+} from "./MessageInputBar.styles";
 
 const MessageInputBar = () => {
-  const {clearMessages} = useActions();
+  const {clearMessages, setCurrentRoom} = useActions();
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,16 +23,11 @@ const MessageInputBar = () => {
     }
   };
 
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  });
-
   const onDisconnectHandler = () => {
     messageSocket.emit("disconnectSession");
     messageSocket.disconnect();
     clearMessages();
+    setCurrentRoom(null);
     navigate("/login");
   };
 

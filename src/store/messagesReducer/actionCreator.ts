@@ -1,12 +1,14 @@
 import {
   messageInterface,
   messagesActionTypes,
+  messagesStore,
   userInterface,
   userRegistrationData,
 } from "./state";
 
 export interface controlMenuInterface {
   type: messagesActionTypes.CONTROL_MENU;
+  payload: messagesStore["isMenuOpen"];
 }
 
 export interface setNewMessageInterface {
@@ -35,12 +37,12 @@ export interface removeUserInterface {
 
 export interface setUserNameInterface {
   type: messagesActionTypes.SET_USER_NAME;
-  payload: string;
+  payload: messagesStore["userName"];
 }
 
 export interface setCurrentRoomInterface {
   type: messagesActionTypes.SET_CURRENT_ROOM;
-  payload: string;
+  payload: messagesStore["room"];
 }
 
 export interface clearMessagesInterface {
@@ -83,18 +85,23 @@ export const messagesActionsObject = {
     type: messagesActionTypes.REMOVE_USER,
     payload: payload,
   }),
-  setUserName: (payload: string): setUserNameInterface => ({
+  setUserName: (
+    payload: setUserNameInterface["payload"]
+  ): setUserNameInterface => ({
     type: messagesActionTypes.SET_USER_NAME,
     payload: payload,
   }),
-  setCurrentRoom: (payload: string): setCurrentRoomInterface => ({
+  setCurrentRoom: (
+    payload: setCurrentRoomInterface["payload"]
+  ): setCurrentRoomInterface => ({
     type: messagesActionTypes.SET_CURRENT_ROOM,
     payload: payload,
   }),
   clearMessages: (): clearMessagesInterface => ({
     type: messagesActionTypes.CLEAR_MESSAGES,
   }),
-  controlMenu: (): controlMenuInterface => ({
+  controlMenu: (payload: boolean): controlMenuInterface => ({
     type: messagesActionTypes.CONTROL_MENU,
+    payload: payload,
   }),
 };

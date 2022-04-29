@@ -27,12 +27,12 @@ export interface userInterface {
 }
 
 export type messagesStore = {
-  room: string;
-  messages: messageInterface[];
+  room: string | null;
   userID: string;
   userName: string | null;
-  users: Array<userInterface>;
   isMenuOpen: boolean;
+  users: Array<userInterface>;
+  messages: messageInterface[];
 };
 
 export type userRegistrationData = {

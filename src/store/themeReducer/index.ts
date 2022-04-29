@@ -1,13 +1,15 @@
 import {themeActionTypes, themeStore} from "./state";
 import {produce, Draft} from "immer";
 import {StyleActions} from "./actionCreator";
-import {defaultDarkModeTheme, defaultLightModeTheme} from "../../GlobalStyles";
+import {defaultLightModeTheme} from "../../GlobalStyles";
 import {
   localStorageSystemColorScheme,
   localStorageDarkMode,
   localStorageTheme,
   localStorageVars,
+  setThemeToLocalStorage,
 } from "../../api/localStorage/localStorage";
+import {putMetaStyleTag} from "../../GlobalStyles";
 
 const initialState: themeStore = {
   systemColorScheme: localStorageSystemColorScheme
@@ -32,11 +34,6 @@ export const themeReducer = produce(
           localStorageVars.DATA_AUTO_THEME,
           JSON.stringify(draft.systemColorScheme)
         );
-        if (draft.systemColorScheme) {
-          draft.themeColors = defaultDarkModeTheme;
-        } else {
-          draft.themeColors = defaultLightModeTheme;
-        }
 
         break;
       case themeActionTypes.SET_THEME_COLORS:
@@ -45,6 +42,7 @@ export const themeReducer = produce(
           localStorageVars.THEME,
           JSON.stringify(action.payload)
         );
+        putMetaStyleTag(action.payload.accentColor);
         break;
       case themeActionTypes.SET_DARK_MODE:
         draft.darkMode = !draft.darkMode;
@@ -52,11 +50,11 @@ export const themeReducer = produce(
           localStorageVars.DARK_MODE,
           String(draft.darkMode)
         );
-        if (draft.darkMode) {
-          draft.themeColors = defaultDarkModeTheme;
-        } else {
-          draft.themeColors = defaultLightModeTheme;
-        }
+
+        draft.themeColors = setThemeToLocalStorage(
+          draft.darkMode,
+          draft.themeColors
+        );
         break;
       default:
         break;

@@ -3,6 +3,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import {messageSocket} from "../api/websocket";
 import useActions from "../hooks/useActions";
+import CustomSelect from "../components/CustomSelect";
 
 const LoginForm = styled.form`
   border-radius: 4px;
@@ -18,7 +19,8 @@ const LoginForm = styled.form`
   }
 
   & input {
-    border: 1px solid ${({theme}) => theme.textColor};
+    border: 1px solid lightgray;
+    border-radius: 3px;
   }
 
   & button {
@@ -27,10 +29,6 @@ const LoginForm = styled.form`
     font-size: 16px;
     border: none;
     cursor: pointer;
-
-    &:active {
-      background-color: #2f4483d1;
-    }
   }
 `;
 
@@ -56,7 +54,7 @@ interface CustomizedState {
 }
 
 const LoginPage = () => {
-  const [room, setRoom] = useState<string | null>("1");
+  const [room, setRoom] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const {setUserName, setCurrentRoom} = useActions();
   const location = useLocation();
@@ -64,32 +62,29 @@ const LoginPage = () => {
   const state = location.state as CustomizedState;
   const fromPage = state?.from?.pathname || "/";
 
+  const onSelectChangeHandler = (roomValue: string) => {
+    setRoom(roomValue);
+  };
+
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (inputRef.current && inputRef.current.value.length >= 3 && room) {
       setUserName(inputRef.current.value);
       setCurrentRoom(room);
-
       messageSocket.emit("registerNewUser", inputRef.current.value, room);
       navigate(fromPage);
     } else {
-      alert("Имя пользователя должно состоять минимум из 3 символов");
+      if (inputRef.current && inputRef.current.value.length >= 3) {
+        alert("Имя пользователя должно состоять минимум из 3 символов");
+      } else if (!room) {
+        alert("Необходимо выбрать комнату");
+      }
     }
-  };
-
-  const onSelectChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRoom(e.target.value);
   };
 
   return (
     <>
       <Wrapper>
-        <select name="rooms" onChange={onSelectChangeHandler}>
-          <option value="room1">Room 1</option>
-          <option value="room2">Room 2</option>
-          <option value="room3">Room 3</option>
-          <option value="random">Чат со случайным пользователем</option>
-        </select>
         <LoginForm onSubmit={onSubmitHandler}>
           <input
             type="text"
@@ -98,8 +93,9 @@ const LoginPage = () => {
             autoComplete="off"
             placeholder="Ваш логин..."
           />
-          <button type="submit">Отправить</button>
+          <button type="submit">Войти</button>
         </LoginForm>
+        <CustomSelect onChangeHandler={onSelectChangeHandler} />
       </Wrapper>
     </>
   );

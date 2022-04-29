@@ -17,4 +17,5 @@ export interface themeColorsInterface {
   mineMessageColor: string;
   bgColor: string;
   textColor: string;
+  reversedTextColor: string;
 }

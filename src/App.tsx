@@ -4,7 +4,7 @@ import GlobalStyles, {
   defaultDarkModeTheme,
   defaultLightModeTheme,
 } from "./GlobalStyles";
-import Header from "./components/Header";
+import Header from "./components/Header/Header";
 import {Routes, Route} from "react-router-dom";
 // import {selectIsToggleSystemColorScheme, selectUserID} from "./store/selectors";
 
@@ -17,8 +17,9 @@ import {
   selectIsToggleSystemColorScheme,
   selectThemeColors,
 } from "./store/selectors";
-import Settings from "./components/Settings";
+import Settings from "./components/Settings/Settings";
 import useActions from "./hooks/useActions";
+import {putMetaStyleTag} from "./GlobalStyles";
 
 //Слеплять сообщения подряд в один элемент
 
@@ -29,14 +30,14 @@ const App: React.FC = () => {
   const {setThemeColors} = useActions();
   useEffect(() => {
     document.body.setAttribute("data-autotheme", String(isAutoTheme));
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", (event) => {
-        const autoColorScheme = !event.matches
-          ? defaultLightModeTheme
-          : defaultDarkModeTheme;
-        setThemeColors(autoColorScheme);
-      });
+    // window
+    //   .matchMedia("(prefers-color-scheme: dark)")
+    //   .addEventListener("change", (event) => {
+    //     const autoColorScheme = !event.matches
+    //       ? defaultLightModeTheme
+    //       : defaultDarkModeTheme;
+    //     setThemeColors(autoColorScheme);
+    //   });
 
     //TODO: перезатирает тему при заходе / смене темы
     // window.matchMedia &&
@@ -45,13 +46,16 @@ const App: React.FC = () => {
     //   : setThemeColors(defaultLightModeTheme);
   }, [isAutoTheme]);
 
-  console.log(theme);
+  useEffect(() => {
+    putMetaStyleTag(theme.accentColor);
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <div className="App">
         <Header />
-        {isMenuOpened && <Settings />}
+        <Settings />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route
