@@ -1,11 +1,12 @@
 import {useEffect, useRef} from "react";
-import {CirclePicker, TwitterPicker} from "react-color";
+import {TwitterPicker, BlockPicker} from "react-color";
 import {useSelector} from "react-redux";
 import useActions from "../../hooks/useActions";
 import {CSSTransition} from "react-transition-group";
 import {
   selectIsDarkMode,
   selectIsMenuOpen,
+  selectIsToggleSystemColorScheme,
   selectThemeColors,
   selectUserID,
 } from "../../store/selectors";
@@ -13,6 +14,7 @@ import Message from "../Message/Message";
 import {SettingsBG, SettingsWrapper, SettingsBlock} from "./Settings.styled";
 
 const Settings = () => {
+  const isSystemColorScheme = useSelector(selectIsToggleSystemColorScheme);
   const isMenuOpen = useSelector(selectIsMenuOpen);
   const userID = useSelector(selectUserID);
   const themeColors = useSelector(selectThemeColors);
@@ -50,7 +52,9 @@ const Settings = () => {
           <h1>Настройки</h1>
           <SettingsBlock>
             <p>Основной цвет</p>
-            <CirclePicker
+            <BlockPicker
+              width="90%"
+              triangle="hide"
               colors={[
                 "#f44336",
                 "#e91e63",
@@ -82,7 +86,12 @@ const Settings = () => {
 
             <Message
               userInfo={{
-                userData: {id: userID, color: "", username: "Пользователь"},
+                userData: {
+                  socketID: "test",
+                  userID: userID,
+                  color: "",
+                  username: "Пользователь",
+                },
                 body: "Тестовое сообщение",
                 time: "09:41",
               }}
@@ -108,7 +117,12 @@ const Settings = () => {
             />
             <Message
               userInfo={{
-                userData: {id: "0", color: "", username: "Пользователь"},
+                userData: {
+                  socketID: "",
+                  userID: "0",
+                  color: "",
+                  username: "Пользователь",
+                },
                 body: "Тестовое сообщение",
                 time: "09:41",
               }}
@@ -124,12 +138,16 @@ const Settings = () => {
               }
             />
           </SettingsBlock>
-          <button onClick={toggleSystemColorScheme}>
+          <button
+            onClick={toggleSystemColorScheme}
+            style={{background: isSystemColorScheme ? "green" : "red"}}
+          >
             Set System color scheme
-          </button>
+          </button>{" "}
           <label>
             <span>Dark Mode</span>
             <input
+              disabled={isSystemColorScheme}
               type="checkbox"
               checked={isDarkMode}
               onChange={setDarkMode}

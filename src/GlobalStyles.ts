@@ -9,6 +9,8 @@ const GlobalStyles = createGlobalStyle`
 
 }
 
+
+
 body {
   background:   ${({theme}) => theme.bgColor} 
 }

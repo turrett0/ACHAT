@@ -6,11 +6,6 @@ import {
   userRegistrationData,
 } from "./state";
 
-export interface controlMenuInterface {
-  type: messagesActionTypes.CONTROL_MENU;
-  payload: messagesStore["isMenuOpen"];
-}
-
 export interface setNewMessageInterface {
   type: messagesActionTypes.SET_NEW_MESSAGE;
   payload: messageInterface;
@@ -35,16 +30,6 @@ export interface removeUserInterface {
   payload: userInterface;
 }
 
-export interface setUserNameInterface {
-  type: messagesActionTypes.SET_USER_NAME;
-  payload: messagesStore["userName"];
-}
-
-export interface setCurrentRoomInterface {
-  type: messagesActionTypes.SET_CURRENT_ROOM;
-  payload: messagesStore["room"];
-}
-
 export interface clearMessagesInterface {
   type: messagesActionTypes.CLEAR_MESSAGES;
 }
@@ -55,10 +40,7 @@ export type messagesActions =
   | setNewUserInterface
   | removeUserInterface
   | setUsersInterface
-  | setUserNameInterface
-  | setCurrentRoomInterface
-  | clearMessagesInterface
-  | controlMenuInterface;
+  | clearMessagesInterface;
 
 export const messagesActionsObject = {
   setNewMessage: (payload: messageInterface): setNewMessageInterface => {
@@ -85,23 +67,8 @@ export const messagesActionsObject = {
     type: messagesActionTypes.REMOVE_USER,
     payload: payload,
   }),
-  setUserName: (
-    payload: setUserNameInterface["payload"]
-  ): setUserNameInterface => ({
-    type: messagesActionTypes.SET_USER_NAME,
-    payload: payload,
-  }),
-  setCurrentRoom: (
-    payload: setCurrentRoomInterface["payload"]
-  ): setCurrentRoomInterface => ({
-    type: messagesActionTypes.SET_CURRENT_ROOM,
-    payload: payload,
-  }),
+
   clearMessages: (): clearMessagesInterface => ({
     type: messagesActionTypes.CLEAR_MESSAGES,
-  }),
-  controlMenu: (payload: boolean): controlMenuInterface => ({
-    type: messagesActionTypes.CONTROL_MENU,
-    payload: payload,
   }),
 };

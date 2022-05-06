@@ -9,7 +9,7 @@ export const SettingsBG = styled.div`
   z-index: 9;
 
   &.settings-enter {
-    transform: translateX(-100%);
+    transform: translateX(100%);
   }
   &.settings-enter-active {
     transform: translateX(0);
@@ -19,26 +19,26 @@ export const SettingsBG = styled.div`
     transform: translateX(0%);
   }
   &.settings-exit-active {
-    transform: translateX(-100%);
-    transition: transform 300ms;
+    transform: translateX(100%);
+    transition: transform 500ms;
   }
 `;
 
 export const SettingsWrapper = styled.div`
-  padding: 40px 0;
+  padding: 50px 0 100px 0;
+
   background: ${({theme}) => theme.bgColor};
-  border: 2px solid ${({theme}) => theme.textColor};
+  border-left: 2px solid ${({theme}) => theme.textColor};
   color: ${({theme}) => theme.reversedTextColor};
-  border-left: none;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: fixed;
-  left: 0;
-  height: 100vh;
+  right: 0;
   width: 300px;
   z-index: 9;
-  box-shadow: 13px 0px 8px 0px rgba(34, 60, 80, 0.2);
+  box-shadow: -13px 0px 8px 0px rgba(34, 60, 80, 0.2);
   overflow: scroll;
 
   & .twitter-picker {

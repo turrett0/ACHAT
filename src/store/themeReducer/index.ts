@@ -34,7 +34,6 @@ export const themeReducer = produce(
           localStorageVars.DATA_AUTO_THEME,
           JSON.stringify(draft.systemColorScheme)
         );
-
         break;
       case themeActionTypes.SET_THEME_COLORS:
         draft.themeColors = action.payload;
@@ -46,11 +45,6 @@ export const themeReducer = produce(
         break;
       case themeActionTypes.SET_DARK_MODE:
         draft.darkMode = !draft.darkMode;
-        localStorage.setItem(
-          localStorageVars.DARK_MODE,
-          String(draft.darkMode)
-        );
-
         draft.themeColors = setThemeToLocalStorage(
           draft.darkMode,
           draft.themeColors

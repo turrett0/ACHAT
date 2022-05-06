@@ -18,8 +18,8 @@ const Message: React.FC<Props> = ({userInfo}) => {
   const {userData, body, time} = userInfo;
   const currentUserID = useSelector(selectUserID);
 
-  const author = userData.id === currentUserID ? "mine" : "stranger";
-  return userData.id === "system" ? (
+  const author = userData.userID === currentUserID ? "mine" : "stranger";
+  return userData.socketID === "system" ? (
     <Notification>{body}</Notification>
   ) : (
     <MessageBody author={author} color={userData.color}>

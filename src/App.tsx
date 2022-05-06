@@ -1,54 +1,42 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {ThemeProvider} from "styled-components";
-import GlobalStyles, {
-  defaultDarkModeTheme,
-  defaultLightModeTheme,
-} from "./GlobalStyles";
+import GlobalStyles from "./GlobalStyles";
 import Header from "./components/Header/Header";
 import {Routes, Route} from "react-router-dom";
-// import {selectIsToggleSystemColorScheme, selectUserID} from "./store/selectors";
-
-import LoginPage from "./Pages/LoginPage";
+import LoginPage from "./Pages/LoginPage/LoginPage";
 import ChatPage from "./Pages/ChatPage";
 import RequireAuth from "./hoc/RequireAuth";
 import {useSelector} from "react-redux";
 import {
-  selectIsMenuOpen,
   selectIsToggleSystemColorScheme,
   selectThemeColors,
 } from "./store/selectors";
 import Settings from "./components/Settings/Settings";
-import useActions from "./hooks/useActions";
 import {putMetaStyleTag} from "./GlobalStyles";
 
-//Слеплять сообщения подряд в один элемент
-
 const App: React.FC = () => {
-  const isMenuOpened = useSelector(selectIsMenuOpen);
   const theme = useSelector(selectThemeColors);
-  const isAutoTheme = useSelector(selectIsToggleSystemColorScheme);
-  const {setThemeColors} = useActions();
-  useEffect(() => {
-    document.body.setAttribute("data-autotheme", String(isAutoTheme));
-    // window
-    //   .matchMedia("(prefers-color-scheme: dark)")
-    //   .addEventListener("change", (event) => {
-    //     const autoColorScheme = !event.matches
-    //       ? defaultLightModeTheme
-    //       : defaultDarkModeTheme;
-    //     setThemeColors(autoColorScheme);
-    //   });
-
-    //TODO: перезатирает тему при заходе / смене темы
-    // window.matchMedia &&
-    // window.matchMedia("(prefers-color-scheme: dark)").matches
-    //   ? setThemeColors(defaultDarkModeTheme)
-    //   : setThemeColors(defaultLightModeTheme);
-  }, [isAutoTheme]);
+  const isSystemColorScheme = useSelector(selectIsToggleSystemColorScheme);
 
   useEffect(() => {
     putMetaStyleTag(theme.accentColor);
   }, []);
+
+  const colorSchemeChangeHandler = useCallback(() => {
+    console.log(isSystemColorScheme);
+  }, [isSystemColorScheme]);
+
+  useEffect(() => {
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", colorSchemeChangeHandler);
+
+    return () => {
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .removeEventListener("change", colorSchemeChangeHandler);
+    };
+  }, [colorSchemeChangeHandler]);
 
   return (
     <ThemeProvider theme={theme}>

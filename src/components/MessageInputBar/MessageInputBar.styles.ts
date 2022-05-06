@@ -10,8 +10,6 @@ export const MessageWrapper = styled.div`
   height: 60px;
   width: 100vw;
   background-color: ${({theme}) => theme.accentColor};
-  padding-bottom: env(safe-area-inset-bottom, 0.5vh);
-  padding-top: env(safe-area-inset-bottom, 0.5vh); ;
 `;
 export const MessageInput = styled.input`
   width: 90%;
@@ -25,7 +23,7 @@ export const MessageInput = styled.input`
     color: white;
   }
 `;
-export const MessageButton = styled.button`
+export const IconButton = styled.button`
   color: #fff;
   height: 90%;
   cursor: pointer;

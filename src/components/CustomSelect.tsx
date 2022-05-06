@@ -14,6 +14,7 @@ const CustomSelect: React.FC<Props> = ({onChangeHandler}) => {
     {value: "room1", label: "Room 1"},
     {value: "room2", label: "Room 2"},
     {value: "room3", label: "Room 3"},
+    {value: "random", label: "Чат со случайным пользователем"},
   ];
   const customSelectStyles = {
     menu: (provided: any, state: any) => ({
@@ -30,8 +31,16 @@ const CustomSelect: React.FC<Props> = ({onChangeHandler}) => {
     }),
     control: (provided: any, state: any) => ({
       ...provided,
-
       background: theme.bgColor,
+    }),
+    placeholder: (provided: any, state: any) => ({
+      ...provided,
+      color: theme.reversedTextColor,
+      background: theme.bgColor,
+    }),
+    input: (provided: any, state: any) => ({
+      ...provided,
+      color: "theme.reversedTextColor",
     }),
 
     dropdownIndicator: (p: any, s: any) => ({
@@ -46,6 +55,10 @@ const CustomSelect: React.FC<Props> = ({onChangeHandler}) => {
       border: "none",
       cursor: "pointer",
     }),
+    singleValue: (p: any, s: any) => ({
+      ...p,
+      color: theme.reversedTextColor,
+    }),
   };
 
   return (
@@ -56,12 +69,12 @@ const CustomSelect: React.FC<Props> = ({onChangeHandler}) => {
       options={options}
       placeholder={"Доступные комнаты"}
       styles={customSelectStyles}
-      theme={(hui: Theme) => ({
-        ...hui,
+      theme={(themes: Theme) => ({
+        ...themes,
         borderRadius: 3,
         border: "none",
         colors: {
-          ...hui.colors,
+          ...themes.colors,
           primary: theme.accentColor,
         },
       })}

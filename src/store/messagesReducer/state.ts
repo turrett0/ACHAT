@@ -22,20 +22,19 @@ export interface messageInterface {
 
 export interface userInterface {
   username: string;
-  id: string;
+  userID: string;
+  socketID: string;
   color: string;
 }
 
 export type messagesStore = {
-  room: string | null;
-  userID: string;
-  userName: string | null;
-  isMenuOpen: boolean;
+  socketID: string;
   users: Array<userInterface>;
   messages: messageInterface[];
 };
 
 export type userRegistrationData = {
-  userID: string;
+  socketID: string;
   onlineUsers: Array<userInterface>;
+  chatHistory: messageInterface[];
 };

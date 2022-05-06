@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {IconButton} from "../MessageInputBar/MessageInputBar.styles";
 
 export const CustomHeader = styled.header`
   background-color: ${({theme}) => theme.accentColor};
@@ -6,13 +7,15 @@ export const CustomHeader = styled.header`
   display: flex;
   align-items: center;
   position: sticky;
-  padding: 5px 10px;
+  justify-content: space-between;
+  padding: 0.5rem 2rem;
   width: 100vw;
   z-index: 10;
   top: 0;
 `;
 
 export const HeaderMenuButton = styled.button`
+  right: 0;
   text-align: center;
   background: none;
   border: none;
@@ -29,9 +32,19 @@ export const HeaderMenuButton = styled.button`
 `;
 
 export const HeaderInner = styled.div`
-  display: flex;
   padding: 0 50px;
-  justify-content: space-between;
+  display: flex;
   align-items: center;
-  width: 100vw;
+  flex-direction: column;
+  width: 100vh;
+`;
+
+export const LeaveButton = styled(IconButton)`
+  transform: rotate(180deg);
+  display: flex;
+  align-items: center;
+  & svg {
+    width: 25px;
+    height: 25px;
+  }
 `;

@@ -1,51 +1,15 @@
-import React, {memo, useRef, useState} from "react";
+import React, {memo, useEffect, useRef, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
-import styled from "styled-components";
-import {messageSocket} from "../api/websocket";
-import useActions from "../hooks/useActions";
-import CustomSelect from "../components/CustomSelect";
-
-const LoginForm = styled.form`
-  border-radius: 4px;
-
-  & input,
-  & button {
-    width: 100%;
-    padding: 10px;
-    outline: none;
-    margin-bottom: 10px;
-    background: none;
-    color: ${({theme}) => theme.textColor};
-  }
-
-  & input {
-    border: 1px solid lightgray;
-    border-radius: 3px;
-  }
-
-  & button {
-    background-color: ${({theme}) => theme.accentColor};
-    color: #fff;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-  }
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 80vw;
-  margin: 20vh auto;
-
-  & select {
-    text-align: center;
-    outline: none;
-    background: none;
-    color: ${({theme}) => theme.textColor};
-  }
-`;
+import {messageSocket} from "../../api/websocket";
+import useActions from "../../hooks/useActions";
+import CustomSelect from "../../components/CustomSelect";
+import {useSelector} from "react-redux";
+import {
+  selectIsDarkMode,
+  selectUserID,
+  selectUserName,
+} from "../../store/selectors";
+import {Wrapper, LoginForm} from "./LoginPage.styled";
 
 interface CustomizedState {
   from: {
@@ -54,27 +18,43 @@ interface CustomizedState {
 }
 
 const LoginPage = () => {
+  const userName = useSelector(selectUserName);
+  const isDarkMode = useSelector(selectIsDarkMode);
   const [room, setRoom] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const {setUserName, setCurrentRoom} = useActions();
+  const {setUserName, setCurrentRoom, setAuth} = useActions();
   const location = useLocation();
   const navigate = useNavigate();
   const state = location.state as CustomizedState;
   const fromPage = state?.from?.pathname || "/";
+  const userID = useSelector(selectUserID);
 
   const onSelectChangeHandler = (roomValue: string) => {
     setRoom(roomValue);
   };
+
+  useEffect(() => {
+    if (inputRef.current && userName) {
+      inputRef.current.value = userName;
+    }
+  }, []);
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (inputRef.current && inputRef.current.value.length >= 3 && room) {
       setUserName(inputRef.current.value);
       setCurrentRoom(room);
-      messageSocket.emit("registerNewUser", inputRef.current.value, room);
+      setAuth(true);
+      console.log("here");
+      messageSocket.emit("registerNewUser", {
+        username: inputRef.current.value,
+        room: room,
+        userID: userID,
+      });
+
       navigate(fromPage);
     } else {
-      if (inputRef.current && inputRef.current.value.length >= 3) {
+      if (inputRef.current && inputRef.current.value.length <= 3) {
         alert("Имя пользователя должно состоять минимум из 3 символов");
       } else if (!room) {
         alert("Необходимо выбрать комнату");
@@ -85,7 +65,7 @@ const LoginPage = () => {
   return (
     <>
       <Wrapper>
-        <LoginForm onSubmit={onSubmitHandler}>
+        <LoginForm onSubmit={onSubmitHandler} modeSwitcher={isDarkMode}>
           <input
             type="text"
             name="login"

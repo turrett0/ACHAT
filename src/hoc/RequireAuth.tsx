@@ -1,7 +1,7 @@
 import React from "react";
 import {useSelector} from "react-redux";
-import {Navigate, useLocation, useNavigate} from "react-router-dom";
-import {selectUserName} from "../store/selectors";
+import {Navigate, useLocation} from "react-router-dom";
+import {selectIsAuth} from "../store/selectors";
 
 interface Props {
   children: React.ReactElement;
@@ -9,8 +9,8 @@ interface Props {
 
 const RequireAuth: React.FC<Props> = ({children}) => {
   const location = useLocation();
-  const currentUser = useSelector(selectUserName);
-  if (!currentUser) {
+  const isAuth = useSelector(selectIsAuth);
+  if (!isAuth) {
     return <Navigate to="/login" state={{from: location}} />;
   }
   return children;

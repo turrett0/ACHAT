@@ -11,8 +11,7 @@ const MessageBox = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-bottom: 60px;
-  height: 95vh;
+  padding-bottom: 80px;
 `;
 
 const ChatPage = () => {

@@ -9,7 +9,6 @@ export const MessageBody = styled.div.attrs(
       ? props.theme.mineMessageColor
       : props.theme.strangerMessageColor};
   width: 40%;
-  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,6 +29,7 @@ export const Notification = styled.div`
   text-align: center;
   margin: 8px 0;
   font-size: 12px;
+  color: ${(props) => props.theme.reversedTextColor};
 `;
 
 export const MessageText = styled.span`

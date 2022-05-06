@@ -3,9 +3,6 @@ import {themeActionTypes, themeColorsInterface} from "./state";
 interface toggleSystemColorSchemeInterface {
   type: themeActionTypes.TOGGLE_SYSTEM_COLOR_SCHEME;
 }
-interface setToggleSystemColorSchemeInterface {
-  type: themeActionTypes.SET_TOGGLE_SYSTEM_COLOR_SCHEME;
-}
 
 interface setSystemColorsInterface {
   type: themeActionTypes.SET_THEME_COLORS;
@@ -35,10 +32,3 @@ export type StyleActions =
   | toggleSystemColorSchemeInterface
   | setSystemColorsInterface
   | setDarkModeInterface;
-
-// const Person = {
-//   name: "Barbek",
-//   surname: "Akzum",
-// };
-
-// const keys = Object.keys(Person) as Array<keyof typeof Person>;

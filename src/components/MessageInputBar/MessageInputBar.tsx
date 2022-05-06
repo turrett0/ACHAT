@@ -1,18 +1,15 @@
-import {useRef} from "react";
-
+import {useRef, useState} from "react";
 import {messageSocket} from "../../api/websocket";
 import {AiOutlineArrowUp} from "react-icons/ai";
-import {useNavigate} from "react-router-dom";
-import useActions from "../../hooks/useActions";
+
 import {
   MessageWrapper,
-  MessageButton,
+  IconButton,
   MessageInput,
 } from "./MessageInputBar.styles";
 
 const MessageInputBar = () => {
-  const {clearMessages, setCurrentRoom} = useActions();
-  const navigate = useNavigate();
+  const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,29 +20,25 @@ const MessageInputBar = () => {
     }
   };
 
-  const onDisconnectHandler = () => {
-    messageSocket.emit("disconnectSession");
-    messageSocket.disconnect();
-    clearMessages();
-    setCurrentRoom(null);
-    navigate("/login");
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      console.log(e.target.files[0].name);
+      setFile(e.target.files[0]);
+      console.log(e.target.files[0]);
+    }
   };
 
   return (
     <MessageWrapper>
-      <MessageButton onClick={() => onDisconnectHandler()}>Выйти</MessageButton>
+      <input type="file" onChange={onFileChange} />
       <form
         onSubmit={onSubmitHandler}
         style={{width: "100vw", display: "flex", alignItems: "center"}}
       >
-        <MessageInput
-          type="text"
-          placeholder="Напишите что нибудь..."
-          ref={inputRef}
-        />
-        <MessageButton type="submit">
+        <MessageInput placeholder="Напишите что нибудь..." ref={inputRef} />
+        <IconButton type="submit">
           <AiOutlineArrowUp fill={"#FFF"} fontSize="20px" />
-        </MessageButton>
+        </IconButton>
       </form>
     </MessageWrapper>
   );
