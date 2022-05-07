@@ -12,6 +12,7 @@ import {
 } from "../../store/selectors";
 import Message from "../Message/Message";
 import {SettingsBG, SettingsWrapper, SettingsBlock} from "./Settings.styled";
+import {messageTypes} from "../../store/messagesReducer/state";
 
 const Settings = () => {
   const isSystemColorScheme = useSelector(selectIsToggleSystemColorScheme);
@@ -92,7 +93,10 @@ const Settings = () => {
                   color: "",
                   username: "Пользователь",
                 },
-                body: "Тестовое сообщение",
+                message: {
+                  text: "Тестовое сообщение",
+                  type: messageTypes.TEXT_MESSAGE,
+                },
                 time: "09:41",
               }}
             />
@@ -123,7 +127,10 @@ const Settings = () => {
                   color: "",
                   username: "Пользователь",
                 },
-                body: "Тестовое сообщение",
+                message: {
+                  text: "Тестовое сообщение",
+                  type: messageTypes.TEXT_MESSAGE,
+                },
                 time: "09:41",
               }}
             />

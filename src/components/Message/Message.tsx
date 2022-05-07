@@ -1,7 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import {useSelector} from "react-redux";
-import styled from "styled-components";
-import {messageInterface} from "../../store/messagesReducer/state";
+import {
+  messageInterface,
+  messageAuthor,
+  messageTypes,
+} from "../../store/messagesReducer/state";
 import {selectUserID} from "../../store/selectors";
 import {
   MessageBody,
@@ -15,16 +18,28 @@ interface Props {
 }
 
 const Message: React.FC<Props> = ({userInfo}) => {
-  const {userData, body, time} = userInfo;
+  const {userData, message, time} = userInfo;
   const currentUserID = useSelector(selectUserID);
+  const [image, setImage] = useState<any>();
 
-  const author = userData.userID === currentUserID ? "mine" : "stranger";
+  if (message.type === messageTypes.FILE_MESSAGE && message.file) {
+    const blob = new Blob([message.file], {type: message.type});
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+  }
+
+  const author: messageAuthor =
+    userData.userID === currentUserID ? "mine" : "stranger";
   return userData.socketID === "system" ? (
-    <Notification>{body}</Notification>
+    <Notification>{message.text}</Notification>
   ) : (
-    <MessageBody author={author} color={userData.color}>
-      <MessageText>{body}</MessageText>
-      <div style={{alignSelf: "flex-end", height: "18"}}>
+    <MessageBody author={author} type={message.type}>
+      {image && <img src={image} alt={image.type} />}
+      {message.text?.length > 0 && <MessageText>{message.text}</MessageText>}
+      <div style={{alignSelf: "flex-end", height: "18", padding: "0 4px"}}>
         {author !== "mine" && <MessageSpan>{userData.username}</MessageSpan>}
         <MessageSpan>{time}</MessageSpan>
       </div>

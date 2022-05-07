@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect} from "react";
 import {ThemeProvider} from "styled-components";
 import GlobalStyles from "./GlobalStyles";
 import Header from "./components/Header/Header";
@@ -27,14 +27,12 @@ const App: React.FC = () => {
   }, [isSystemColorScheme]);
 
   useEffect(() => {
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", colorSchemeChangeHandler);
+    const matchMediaExample = window.matchMedia("(prefers-color-scheme: dark)");
+
+    matchMediaExample.addEventListener("change", colorSchemeChangeHandler);
 
     return () => {
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .removeEventListener("change", colorSchemeChangeHandler);
+      matchMediaExample.removeEventListener("change", colorSchemeChangeHandler);
     };
   }, [colorSchemeChangeHandler]);
 

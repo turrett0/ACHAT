@@ -5,11 +5,13 @@ import useActions from "../../hooks/useActions";
 import CustomSelect from "../../components/CustomSelect";
 import {useSelector} from "react-redux";
 import {
+  selectConnectionStatus,
   selectIsDarkMode,
   selectUserID,
   selectUserName,
 } from "../../store/selectors";
 import {Wrapper, LoginForm} from "./LoginPage.styled";
+import {connectionStatusTypes} from "../../store/appReducer/state";
 
 interface CustomizedState {
   from: {
@@ -28,6 +30,9 @@ const LoginPage = () => {
   const state = location.state as CustomizedState;
   const fromPage = state?.from?.pathname || "/";
   const userID = useSelector(selectUserID);
+  const connectionStatus = useSelector(selectConnectionStatus);
+  const isConnected =
+    connectionStatus === connectionStatusTypes.CONNECTED ? true : false;
 
   const onSelectChangeHandler = (roomValue: string) => {
     setRoom(roomValue);
@@ -61,12 +66,18 @@ const LoginPage = () => {
       }
     }
   };
+  console.log(isConnected);
 
   return (
     <>
       <Wrapper>
-        <LoginForm onSubmit={onSubmitHandler} modeSwitcher={isDarkMode}>
+        <LoginForm
+          onSubmit={onSubmitHandler}
+          modeSwitcher={isDarkMode}
+          disabled={isConnected}
+        >
           <input
+            disabled={!isConnected}
             type="text"
             name="login"
             ref={inputRef}
@@ -75,7 +86,10 @@ const LoginPage = () => {
           />
           <button type="submit">Войти</button>
         </LoginForm>
-        <CustomSelect onChangeHandler={onSelectChangeHandler} />
+        <CustomSelect
+          onChangeHandler={onSelectChangeHandler}
+          isConnected={isConnected}
+        />
       </Wrapper>
     </>
   );

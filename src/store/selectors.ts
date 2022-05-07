@@ -3,6 +3,10 @@ import {appStore} from "./appReducer/state";
 import {messagesStore} from "./messagesReducer/state";
 import {themeStore} from "./themeReducer/state";
 
+export const selectConnectionStatus = (
+  state: IRootState
+): appStore["connectionStatus"] => state.appReducer.connectionStatus;
+
 export const selectIsAuth = (state: IRootState): appStore["isAuth"] =>
   state.appReducer.isAuth;
 

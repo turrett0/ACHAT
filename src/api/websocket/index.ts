@@ -6,8 +6,11 @@ import {
   userInterface,
   userRegistrationData,
 } from "../../store/messagesReducer/state";
+import {appActionsObject} from "../../store/appReducer/actionCreator";
+import {connectionStatusTypes} from "../../store/appReducer/state";
 
 export enum socketEvents {
+  CONNECTED = "connect",
   CONNECT_ERROR = "connect_error",
   CONNECT_USER = "connectUser",
   RECIEVE_MESSAGE = "message",
@@ -18,11 +21,15 @@ export enum socketEvents {
 
 const {setNewMessage, userRegistration, setNewUser, setUsers} =
   messagesActionsObject;
-
+const {setConnectionStatus} = appActionsObject;
 export const messageSocket = io("ws://192.168.3.7:6969");
 
+messageSocket.on("connect", () => {
+  store.dispatch(setConnectionStatus(connectionStatusTypes.CONNECTED));
+});
+
 messageSocket.on(socketEvents.CONNECT_ERROR, () => {
-  console.log("Не удалось подключиться к серверу. ");
+  store.dispatch(setConnectionStatus(connectionStatusTypes.CONNECT_ERROR));
 });
 
 messageSocket.on(socketEvents.CONNECT_USER, (userData: userInterface) => {
@@ -30,7 +37,7 @@ messageSocket.on(socketEvents.CONNECT_USER, (userData: userInterface) => {
 });
 
 messageSocket.on(socketEvents.RECIEVE_MESSAGE, (message: messageInterface) => {
-  console.log("message new");
+  console.log(message);
   store.dispatch(setNewMessage(message));
 });
 
@@ -46,8 +53,7 @@ messageSocket.on(socketEvents.CONNECT_USER, (user: userInterface) => {
 messageSocket.on(
   socketEvents.USER_DISCONNECT,
   (users: Array<userInterface>) => {
-    console.log("disconnected", users);
-
     store.dispatch(setUsers(users));
+    // store.dispatch(setConnectionStatus(connectionStatusTypes.DISCONNECTED));
   }
 );

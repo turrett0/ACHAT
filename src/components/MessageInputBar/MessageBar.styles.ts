@@ -1,18 +1,21 @@
 import styled from "styled-components";
 
 export const MessageWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 3rem;
   position: fixed;
   bottom: 0;
-  height: 60px;
+`;
+
+export const MessageBarElement = styled.div`
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  height: 3.5rem;
   width: 100vw;
   background-color: ${({theme}) => theme.accentColor};
 `;
 export const MessageInput = styled.input`
-  width: 90%;
+  width: 95%;
   height: 90%;
   outline: none;
   padding: 5px 10px;
@@ -25,10 +28,16 @@ export const MessageInput = styled.input`
 `;
 export const IconButton = styled.button`
   color: #fff;
-  height: 90%;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
-  width: 8%;
   background: none;
   border: none;
   outline: none;
+  text-align: center;
+
+  & svg {
+    height: 100%;
+    width: 100%;
+  }
 `;

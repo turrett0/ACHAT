@@ -1,6 +1,6 @@
 import produce, {Draft} from "immer";
 import {appActions} from "./actionCreator";
-import {appActionTypes, appStore, connectionStatusInterface} from "./state";
+import {appActionTypes, appStore, connectionStatusTypes} from "./state";
 import {
   getLocalStorageUserID,
   getLocalStorageUserName,
@@ -10,7 +10,7 @@ import {
 const initialState: appStore = {
   room: null,
   isMenuOpen: false,
-  connectionStatus: connectionStatusInterface.CONNECTING,
+  connectionStatus: connectionStatusTypes.CONNECTING,
   userName: getLocalStorageUserName() || "",
   userID: getLocalStorageUserID(),
   isAuth: false,
@@ -30,6 +30,9 @@ export const appReducer = produce((draft: Draft<any>, action: appActions) => {
     case appActionTypes.SET_USER_NAME:
       draft.userName = action.payload;
       action.payload && setLocalStorageUserName(action.payload);
+      break;
+    case appActionTypes.SET_CONNECTION_STATUS:
+      draft.connectionStatus = action.payload;
       break;
   }
 }, initialState);

@@ -1,13 +1,15 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import Select, {Theme} from "react-select";
+import {connectionStatusTypes} from "../store/appReducer/state";
 import {selectThemeColors} from "../store/selectors";
 
 type Props = {
   onChangeHandler: (roomValue: string) => void;
+  isConnected: boolean;
 };
 
-const CustomSelect: React.FC<Props> = ({onChangeHandler}) => {
+const CustomSelect: React.FC<Props> = ({onChangeHandler, isConnected}) => {
   const theme = useSelector(selectThemeColors);
 
   const options = [
@@ -31,16 +33,16 @@ const CustomSelect: React.FC<Props> = ({onChangeHandler}) => {
     }),
     control: (provided: any, state: any) => ({
       ...provided,
-      background: theme.bgColor,
+      background: state.isDisabled ? "lightgray" : theme.bgColor,
     }),
     placeholder: (provided: any, state: any) => ({
       ...provided,
       color: theme.reversedTextColor,
-      background: theme.bgColor,
+      background: state.isDisabled ? "lightgray" : theme.bgColor,
     }),
     input: (provided: any, state: any) => ({
       ...provided,
-      color: "theme.reversedTextColor",
+      color: theme.reversedTextColor,
     }),
 
     dropdownIndicator: (p: any, s: any) => ({
@@ -60,11 +62,14 @@ const CustomSelect: React.FC<Props> = ({onChangeHandler}) => {
       color: theme.reversedTextColor,
     }),
   };
+  console.log(isConnected);
 
   return (
     <Select
+      isDisabled={!isConnected}
       onChange={(roomValue) => roomValue && onChangeHandler(roomValue.value)}
-      defaultMenuIsOpen={true}
+      menuIsOpen={isConnected}
+      defaultMenuIsOpen={!isConnected}
       isClearable={true}
       options={options}
       placeholder={"Доступные комнаты"}

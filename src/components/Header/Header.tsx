@@ -1,6 +1,6 @@
 import {useSelector} from "react-redux";
 import useActions from "../../hooks/useActions";
-import {AiOutlineMenu} from "react-icons/ai";
+import {AiOutlineMenu as MenuButton} from "react-icons/ai";
 import {IoMdExit} from "react-icons/io";
 import {useLocation, useNavigate} from "react-router-dom";
 import {messageSocket} from "../../api/websocket";
@@ -49,7 +49,7 @@ const Header = () => {
         </HeaderInner>
       )}
       <HeaderMenuButton onClick={() => controlMenu(!isMenuOpen)}>
-        <AiOutlineMenu />
+        <MenuButton />
       </HeaderMenuButton>
     </CustomHeader>
   );

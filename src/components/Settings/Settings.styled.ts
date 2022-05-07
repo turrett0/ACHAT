@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const SettingsBG = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -25,7 +25,7 @@ export const SettingsBG = styled.div`
 `;
 
 export const SettingsWrapper = styled.div`
-  padding: 50px 0 100px 0;
+  padding: 5rem 0 5rem 0;
 
   background: ${({theme}) => theme.bgColor};
   border-left: 2px solid ${({theme}) => theme.textColor};

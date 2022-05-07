@@ -1,15 +1,17 @@
 import styled from "styled-components";
 
 export const MessageBody = styled.div.attrs(
-  (props: {author: string; color: string}) => props
+  (props: {author: string; type: string}) => props
 )`
   position: relative;
   background-color: ${(props) =>
     props.author === "mine"
       ? props.theme.mineMessageColor
       : props.theme.strangerMessageColor};
-  width: 40%;
+  min-width: 10%;
+  max-width: 40%;
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
@@ -18,9 +20,22 @@ export const MessageBody = styled.div.attrs(
   right: ${(props) => (props.author === "mine" ? 0 : "initial")};
   margin: 25px 15px 0 15px;
   border-radius: 0.5rem;
-  padding: 5px 10px;
+  padding: ${(props) => (props.type === "fileMessage" ? "0" : "5px 10px")};
   color: white;
   word-wrap: break-word;
+
+  & img {
+    width: 100%;
+    height: 100%;
+    max-height: 200px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 600px) {
+    & {
+      max-width: 65%;
+    }
+  }
 `;
 
 export const Notification = styled.div`

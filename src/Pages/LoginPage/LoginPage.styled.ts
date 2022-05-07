@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const LoginForm = styled.form.attrs(
-  (props: {modeSwitcher: boolean}) => props
+  (props: {modeSwitcher: boolean; disabled: boolean}) => props
 )`
   border-radius: 4px;
   display: flex;
@@ -17,14 +17,9 @@ export const LoginForm = styled.form.attrs(
       modeSwitcher ? theme.textColor : theme.reversedTextColor};
   }
 
-  & button {
-    border-radius: 0 4px 4px 0;
-    overflow: hidden;
-    width: 10%;
-    height: 100%;
-  }
-
   & input {
+    background-color: ${({theme, disabled}) =>
+      disabled ? "transparent" : "lightgray"};
     border: 1px solid lightgray;
     border-radius: 4px 0 0 4px;
     padding: 10px;
@@ -44,8 +39,13 @@ export const LoginForm = styled.form.attrs(
   }
 
   & button {
-    background-color: ${({theme}) => theme.accentColor};
-    color: #fff;
+    border-radius: 0 4px 4px 0;
+    overflow: hidden;
+    width: 10%;
+    height: 100%;
+    background-color: ${({theme, disabled}) =>
+      disabled ? theme.accentColor : "lightgray"};
+    color: ${({theme, disabled}) => (disabled ? theme.textColor : "lightgray")};
     font-size: 16px;
     border: none;
     cursor: pointer;

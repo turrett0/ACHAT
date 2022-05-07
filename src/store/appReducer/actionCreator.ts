@@ -1,4 +1,4 @@
-import {appActionTypes, appStore} from "./state";
+import {appActionTypes, appStore, connectionStatusTypes} from "./state";
 
 export interface setCurrentRoomInterface {
   type: appActionTypes.SET_CURRENT_ROOM;
@@ -24,11 +24,17 @@ export interface setAuthInterface {
   payload: appStore["isAuth"];
 }
 
+export interface setConnectionStatusInterface {
+  type: appActionTypes.SET_CONNECTION_STATUS;
+  payload: connectionStatusTypes;
+}
+
 export type appActions =
   | setCurrentRoomInterface
   | controlMenuInterface
   | setUserNameInterface
-  | setAuthInterface;
+  | setAuthInterface
+  | setConnectionStatusInterface;
 
 export const appActionsObject = {
   controlMenu: (payload: boolean): controlMenuInterface => ({
@@ -49,6 +55,12 @@ export const appActionsObject = {
   }),
   setAuth: (payload: boolean): setAuthInterface => ({
     type: appActionTypes.SET_AUTH,
+    payload: payload,
+  }),
+  setConnectionStatus: (
+    payload: connectionStatusTypes
+  ): setConnectionStatusInterface => ({
+    type: appActionTypes.SET_CONNECTION_STATUS,
     payload: payload,
   }),
 };

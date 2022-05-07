@@ -10,13 +10,30 @@ export enum messagesActionTypes {
   CONTROL_MENU = "CONTROL_MENU",
 }
 
-export type MessageType = "mine" | "stranger" | "system";
+export type messageAuthor = "mine" | "stranger" | "system";
+export enum messageTypes {
+  FILE_MESSAGE = "fileMessage",
+  TEXT_MESSAGE = "textMessage",
+}
 
 export type controlMenuInterface = boolean;
 
+export interface textMessageInterface {
+  type: messageTypes.TEXT_MESSAGE;
+  text: string;
+}
+
+export interface fileMessageInterface {
+  type: messageTypes.FILE_MESSAGE;
+  text: string;
+  file: Blob;
+  fileName: string | null;
+  fileType: string | null;
+}
+
 export interface messageInterface {
   userData: userInterface;
-  body: string;
+  message: textMessageInterface | fileMessageInterface;
   time: string;
 }
 
