@@ -1,28 +1,6 @@
 import styled from "styled-components";
 
-export const SettingsBG = styled.div`
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 9;
-
-  &.settings-enter {
-    transform: translateX(100%);
-  }
-  &.settings-enter-active {
-    transform: translateX(0);
-    transition: transform 300ms;
-  }
-  &.settings-exit {
-    transform: translateX(0%);
-  }
-  &.settings-exit-active {
-    transform: translateX(100%);
-    transition: transform 500ms;
-  }
-`;
+export const SettingsBG = styled.div``;
 
 export const SettingsWrapper = styled.div`
   padding: 5rem 0 5rem 0;

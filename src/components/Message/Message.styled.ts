@@ -8,8 +8,8 @@ export const MessageBody = styled.div.attrs(
     props.author === "mine"
       ? props.theme.mineMessageColor
       : props.theme.strangerMessageColor};
-  min-width: 10%;
-  max-width: 40%;
+  min-width: 10vw;
+  max-width: 35vw;
   display: flex;
   overflow: hidden;
   flex-direction: column;
@@ -50,7 +50,7 @@ export const Notification = styled.div`
 export const MessageText = styled.span`
   font-size: 16px;
   width: 100%;
-  padding: 10px 0 0 10px;
+  padding: 10px 10px 0 10px;
 `;
 
 export const MessageSpan = styled.span`

@@ -44,7 +44,7 @@ const Header = () => {
       {pathname === "/login" && <span>ACHAT</span>}
       {currentRoom && pathname !== "/login" && (
         <HeaderInner>
-          <span>{currentRoom}</span>
+          <span>{currentRoom.roomName}</span>
           <span style={{opacity: "0.8"}}>{onlineUserCount} пользователей</span>
         </HeaderInner>
       )}

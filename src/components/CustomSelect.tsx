@@ -1,11 +1,11 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import Select, {Theme} from "react-select";
-import {connectionStatusTypes} from "../store/appReducer/state";
+import {appStore} from "../store/appReducer/state";
 import {selectThemeColors} from "../store/selectors";
 
 type Props = {
-  onChangeHandler: (roomValue: string) => void;
+  onChangeHandler: (roomValue: appStore["room"]) => void;
   isConnected: boolean;
 };
 
@@ -62,13 +62,14 @@ const CustomSelect: React.FC<Props> = ({onChangeHandler, isConnected}) => {
       color: theme.reversedTextColor,
     }),
   };
-  console.log(isConnected);
 
   return (
     <Select
       isDisabled={!isConnected}
-      onChange={(roomValue) => roomValue && onChangeHandler(roomValue.value)}
-      menuIsOpen={isConnected}
+      onChange={(roomValue) =>
+        roomValue &&
+        onChangeHandler({roomID: roomValue.value, roomName: roomValue.label})
+      }
       defaultMenuIsOpen={!isConnected}
       isClearable={true}
       options={options}

@@ -37,12 +37,10 @@ messageSocket.on(socketEvents.CONNECT_USER, (userData: userInterface) => {
 });
 
 messageSocket.on(socketEvents.RECIEVE_MESSAGE, (message: messageInterface) => {
-  console.log(message);
   store.dispatch(setNewMessage(message));
 });
 
 messageSocket.on(socketEvents.REGISTRATION, (regData: userRegistrationData) => {
-  console.log(regData);
   store.dispatch(userRegistration(regData));
 });
 

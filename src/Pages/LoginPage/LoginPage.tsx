@@ -11,7 +11,7 @@ import {
   selectUserName,
 } from "../../store/selectors";
 import {Wrapper, LoginForm} from "./LoginPage.styled";
-import {connectionStatusTypes} from "../../store/appReducer/state";
+import {appStore, connectionStatusTypes} from "../../store/appReducer/state";
 
 interface CustomizedState {
   from: {
@@ -22,7 +22,7 @@ interface CustomizedState {
 const LoginPage = () => {
   const userName = useSelector(selectUserName);
   const isDarkMode = useSelector(selectIsDarkMode);
-  const [room, setRoom] = useState<string | null>(null);
+  const [room, setRoom] = useState<appStore["room"] | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const {setUserName, setCurrentRoom, setAuth} = useActions();
   const location = useLocation();
@@ -34,8 +34,10 @@ const LoginPage = () => {
   const isConnected =
     connectionStatus === connectionStatusTypes.CONNECTED ? true : false;
 
-  const onSelectChangeHandler = (roomValue: string) => {
-    setRoom(roomValue);
+  const onSelectChangeHandler = (roomValue: appStore["room"]) => {
+    if (roomValue) {
+      setRoom({roomID: roomValue.roomID, roomName: roomValue.roomName});
+    }
   };
 
   useEffect(() => {
@@ -50,10 +52,9 @@ const LoginPage = () => {
       setUserName(inputRef.current.value);
       setCurrentRoom(room);
       setAuth(true);
-      console.log("here");
       messageSocket.emit("registerNewUser", {
         username: inputRef.current.value,
-        room: room,
+        room: room.roomID,
         userID: userID,
       });
 
@@ -66,7 +67,6 @@ const LoginPage = () => {
       }
     }
   };
-  console.log(isConnected);
 
   return (
     <>

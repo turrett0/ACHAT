@@ -57,9 +57,7 @@ const MessageBar = () => {
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      console.log(e.target.files[0].name);
       setFile(e.target.files[0]);
-      console.log(e.target.files[0]);
     }
   };
 

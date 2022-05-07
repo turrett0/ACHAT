@@ -1,5 +1,8 @@
 export interface appStore {
-  room: string | null;
+  room: {
+    roomID: string;
+    roomName: string;
+  } | null;
   isMenuOpen: boolean;
   connectionStatus: connectionStatusTypes;
   userName: string | null;

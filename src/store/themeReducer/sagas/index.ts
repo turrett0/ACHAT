@@ -11,7 +11,6 @@ export function* themeSaga() {
 
 function* toggleSystemColorSchemeSaga() {
   const {toggleSystemColorScheme} = themeActionsObject;
-  console.log("saga");
   //   yield;
   yield put(toggleSystemColorScheme());
 }
