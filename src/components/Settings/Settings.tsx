@@ -1,4 +1,3 @@
-import {useEffect, useRef} from "react";
 import {TwitterPicker, BlockPicker} from "react-color";
 import {useSelector} from "react-redux";
 import useActions from "../../hooks/useActions";
@@ -14,6 +13,10 @@ import Message from "../Message/Message";
 import {SettingsBG, SettingsWrapper, SettingsBlock} from "./Settings.styled";
 import {messageTypes} from "../../store/messagesReducer/state";
 import Modal from "../Modal/Modal";
+import {
+  defaultBlockPickerColors,
+  defaultTwitterPickerColors,
+} from "../../theme";
 
 const Settings = () => {
   const isSystemColorScheme = useSelector(selectIsToggleSystemColorScheme);
@@ -41,26 +44,7 @@ const Settings = () => {
               <BlockPicker
                 width="90%"
                 triangle="hide"
-                colors={[
-                  "#f44336",
-                  "#e91e63",
-                  "#9c27b0",
-                  "#673ab7",
-                  "#3f51b5",
-                  "#2196f3",
-                  "#03a9f4",
-                  "#00bcd4",
-                  "#009688",
-                  "#4caf50",
-                  "#8bc34a",
-                  "#cddc39",
-                  "#ffeb3b",
-                  "#ffc107",
-                  "#ff9800",
-                  "#ff5722",
-                  "#607d8b",
-                  "#1d1e20",
-                ]}
+                colors={defaultBlockPickerColors}
                 color={themeColors.accentColor}
                 onChange={(colors) =>
                   setThemeColors({...themeColors, accentColor: colors.hex})
@@ -86,18 +70,7 @@ const Settings = () => {
                 }}
               />
               <TwitterPicker
-                colors={[
-                  "#3B4D91",
-                  "#FF6900",
-                  "#FCB900",
-                  "#7BDCB5",
-                  "#00D084",
-                  "#8ED1FC",
-                  "#ABB8C3",
-                  "#EB144C",
-                  "#F78DA7",
-                  "#9900EF",
-                ]}
+                colors={defaultTwitterPickerColors}
                 triangle="top-right"
                 color={themeColors.mineMessageColor}
                 onChange={(colors) =>
@@ -120,6 +93,7 @@ const Settings = () => {
                 }}
               />
               <TwitterPicker
+                colors={defaultTwitterPickerColors}
                 triangle="top-left"
                 color={themeColors.strangerMessageColor}
                 onChange={(colors) =>
@@ -142,7 +116,7 @@ const Settings = () => {
                 disabled={isSystemColorScheme}
                 type="checkbox"
                 checked={isDarkMode}
-                onChange={setDarkMode}
+                onChange={() => setDarkMode()}
               />
             </label>
           </SettingsWrapper>

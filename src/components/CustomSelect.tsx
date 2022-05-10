@@ -7,9 +7,14 @@ import {selectThemeColors} from "../store/selectors";
 type Props = {
   onChangeHandler: (roomValue: appStore["room"]) => void;
   isConnected: boolean;
+  defaultSelectValue: {value: string; label: string};
 };
 
-const CustomSelect: React.FC<Props> = ({onChangeHandler, isConnected}) => {
+const CustomSelect: React.FC<Props> = ({
+  onChangeHandler,
+  isConnected,
+  defaultSelectValue,
+}) => {
   const theme = useSelector(selectThemeColors);
 
   const options = [
@@ -25,6 +30,7 @@ const CustomSelect: React.FC<Props> = ({onChangeHandler, isConnected}) => {
       color: theme.accentColor,
       border: "none",
       background: theme.bgColor,
+      zIndex: 0,
     }),
     container: (provided: any, state: any) => ({
       ...provided,
@@ -72,6 +78,7 @@ const CustomSelect: React.FC<Props> = ({onChangeHandler, isConnected}) => {
       }
       defaultMenuIsOpen={!isConnected}
       isClearable={true}
+      defaultValue={{value: "room1", label: "Room 1"}}
       options={options}
       placeholder={"Доступные комнаты"}
       styles={customSelectStyles}

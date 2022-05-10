@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from "react";
 import {ThemeProvider} from "styled-components";
-import GlobalStyles from "./GlobalStyles";
+import GlobalStyles from "./theme/GlobalStyles";
 import Header from "./components/Header/Header";
 import {Routes, Route} from "react-router-dom";
 import LoginPage from "./Pages/LoginPage/LoginPage";
@@ -12,23 +12,38 @@ import {
   selectThemeColors,
 } from "./store/selectors";
 import Settings from "./components/Settings/Settings";
-import {putMetaStyleTag} from "./GlobalStyles";
+import {Helmet} from "react-helmet";
+import useActions from "./hooks/useActions";
+import {getCurrentSystemAppear} from "./theme";
 
 const App: React.FC = () => {
   const theme = useSelector(selectThemeColors);
   const isSystemColorScheme = useSelector(selectIsToggleSystemColorScheme);
+  const {setDarkMode} = useActions();
+
+  const colorSchemeChangeHandler = useCallback(
+    (e: MediaQueryListEvent) => {
+      const isDarkMode = e.matches;
+      if (isSystemColorScheme) {
+        isDarkMode ? setDarkMode(true) : setDarkMode(false);
+      }
+    },
+    [isSystemColorScheme]
+  );
 
   useEffect(() => {
-    putMetaStyleTag(theme.accentColor);
+    if (isSystemColorScheme) {
+      const isDarkMode = getCurrentSystemAppear;
+      if (isDarkMode) {
+        setDarkMode(true);
+      } else {
+        setDarkMode(false);
+      }
+    }
   }, []);
-
-  const colorSchemeChangeHandler = useCallback(() => {
-    console.log(isSystemColorScheme);
-  }, [isSystemColorScheme]);
 
   useEffect(() => {
     const matchMediaExample = window.matchMedia("(prefers-color-scheme: dark)");
-
     matchMediaExample.addEventListener("change", colorSchemeChangeHandler);
 
     return () => {
@@ -39,6 +54,9 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
+      <Helmet>
+        <meta name="theme-color" content={theme.accentColor} />
+      </Helmet>
       <div className="App">
         <Header />
         <Settings />

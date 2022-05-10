@@ -20,7 +20,7 @@ export const messagesReducer = produce(
       case messagesActionTypes.SET_USER_ID:
         draft.socketID = action.payload.socketID;
         draft.users = action.payload.onlineUsers;
-        draft.messages.push(...action.payload.chatHistory);
+        draft.messages = [...draft.messages, ...action.payload.chatHistory];
         break;
       case messagesActionTypes.SET_NEW_USER:
         draft.users.push(action.payload);

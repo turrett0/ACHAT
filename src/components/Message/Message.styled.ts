@@ -57,3 +57,9 @@ export const MessageSpan = styled.span`
   font-size: 9px;
   margin-right: 4px;
 `;
+
+export const MessageData = styled.div`
+  align-self: flex-end;
+  height: 18px;
+  padding: 0 4px;
+`;

@@ -1,23 +1,22 @@
 import {themeActionTypes, themeStore} from "./state";
 import {produce, Draft} from "immer";
 import {StyleActions} from "./actionCreator";
-import {defaultLightModeTheme} from "../../GlobalStyles";
+import {defaultLightModeTheme} from "../../theme/index";
 import {
-  localStorageSystemColorScheme,
-  localStorageDarkMode,
-  localStorageTheme,
-  localStorageVars,
-  setThemeToLocalStorage,
+  getlocalStorageSystemColorScheme,
+  getlocalStorageDarkMode,
+  getlocalStorageTheme,
 } from "../../api/localStorage/localStorage";
-import {putMetaStyleTag} from "../../GlobalStyles";
 
 const initialState: themeStore = {
-  systemColorScheme: localStorageSystemColorScheme
-    ? JSON.parse(localStorageSystemColorScheme)
-    : false,
-  darkMode: localStorageDarkMode ? JSON.parse(localStorageDarkMode) : false,
-  themeColors: localStorageTheme
-    ? JSON.parse(localStorageTheme)
+  systemColorScheme: getlocalStorageSystemColorScheme
+    ? JSON.parse(getlocalStorageSystemColorScheme)
+    : true,
+  darkMode: getlocalStorageDarkMode
+    ? JSON.parse(getlocalStorageDarkMode)
+    : true,
+  themeColors: getlocalStorageTheme
+    ? JSON.parse(getlocalStorageTheme)
     : defaultLightModeTheme,
 };
 
@@ -25,30 +24,14 @@ export const themeReducer = produce(
   (draft: Draft<themeStore>, action: StyleActions) => {
     switch (action.type) {
       case themeActionTypes.TOGGLE_SYSTEM_COLOR_SCHEME:
-        draft.systemColorScheme = !draft.systemColorScheme;
-        document.body.setAttribute(
-          localStorageVars.DATA_AUTO_THEME,
-          String(draft.systemColorScheme)
-        );
-        localStorage.setItem(
-          localStorageVars.DATA_AUTO_THEME,
-          JSON.stringify(draft.systemColorScheme)
-        );
+        draft.systemColorScheme = action.payload;
         break;
       case themeActionTypes.SET_THEME_COLORS:
         draft.themeColors = action.payload;
-        localStorage.setItem(
-          localStorageVars.THEME,
-          JSON.stringify(action.payload)
-        );
-        putMetaStyleTag(action.payload.accentColor);
         break;
       case themeActionTypes.SET_DARK_MODE:
         draft.darkMode = !draft.darkMode;
-        draft.themeColors = setThemeToLocalStorage(
-          draft.darkMode,
-          draft.themeColors
-        );
+        draft.themeColors = action.payload;
         break;
       default:
         break;

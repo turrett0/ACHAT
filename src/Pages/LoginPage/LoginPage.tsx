@@ -1,17 +1,17 @@
-import React, {memo, useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {messageSocket} from "../../api/websocket";
 import useActions from "../../hooks/useActions";
 import CustomSelect from "../../components/CustomSelect";
 import {useSelector} from "react-redux";
+import {Wrapper, LoginForm, InputWrapper, SignInIcon} from "./LoginPage.styled";
+import {appStore, connectionStatusTypes} from "../../store/appReducer/state";
 import {
   selectConnectionStatus,
   selectIsDarkMode,
   selectUserID,
   selectUserName,
 } from "../../store/selectors";
-import {Wrapper, LoginForm} from "./LoginPage.styled";
-import {appStore, connectionStatusTypes} from "../../store/appReducer/state";
 
 interface CustomizedState {
   from: {
@@ -20,11 +20,14 @@ interface CustomizedState {
 }
 
 const LoginPage = () => {
+  const defaultSelectValue = {
+    value: "room1",
+    label: "Room 1",
+  };
   const userName = useSelector(selectUserName);
   const isDarkMode = useSelector(selectIsDarkMode);
-  const [room, setRoom] = useState<appStore["room"] | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
   const {setUserName, setCurrentRoom, setAuth} = useActions();
+  const inputRef = useRef<HTMLInputElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const state = location.state as CustomizedState;
@@ -33,18 +36,21 @@ const LoginPage = () => {
   const connectionStatus = useSelector(selectConnectionStatus);
   const isConnected =
     connectionStatus === connectionStatusTypes.CONNECTED ? true : false;
-
-  const onSelectChangeHandler = (roomValue: appStore["room"]) => {
-    if (roomValue) {
-      setRoom({roomID: roomValue.roomID, roomName: roomValue.roomName});
-    }
-  };
+  const [room, setRoom] = useState<appStore["room"] | null>({
+    roomID: defaultSelectValue.value,
+    roomName: defaultSelectValue.label,
+  });
 
   useEffect(() => {
     if (inputRef.current && userName) {
       inputRef.current.value = userName;
     }
   }, []);
+  const onSelectChangeHandler = (roomValue: appStore["room"]) => {
+    if (roomValue) {
+      setRoom({roomID: roomValue.roomID, roomName: roomValue.roomName});
+    }
+  };
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,23 +82,28 @@ const LoginPage = () => {
           modeSwitcher={isDarkMode}
           disabled={isConnected}
         >
-          <input
-            disabled={!isConnected}
-            type="text"
-            name="login"
-            ref={inputRef}
-            autoComplete="off"
-            placeholder="Ваш логин..."
-          />
-          <button type="submit">Войти</button>
+          <InputWrapper>
+            <input
+              disabled={!isConnected}
+              type="text"
+              name="login"
+              ref={inputRef}
+              autoComplete="off"
+              placeholder="Ваш логин..."
+            />
+            <button type="submit">
+              <SignInIcon />
+            </button>
+          </InputWrapper>
         </LoginForm>
         <CustomSelect
           onChangeHandler={onSelectChangeHandler}
           isConnected={isConnected}
+          defaultSelectValue={defaultSelectValue}
         />
       </Wrapper>
     </>
   );
 };
 
-export default memo(LoginPage);
+export default LoginPage;

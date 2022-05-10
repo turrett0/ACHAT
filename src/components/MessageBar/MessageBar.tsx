@@ -1,15 +1,13 @@
 import {useRef, useState} from "react";
 import {messageSocket} from "../../api/websocket";
 import {AiOutlineArrowUp as SendButtonIcon} from "react-icons/ai";
-import {IoIosAttach as AttachIcon} from "react-icons/io";
-
 import {
   MessageWrapper,
   IconButton,
   MessageInput,
   MessageBarElement,
+  AttachIcon,
 } from "./MessageBar.styles";
-import styled from "styled-components";
 import ImagePanel from "../ImagePanel/ImagePanel";
 import {
   fileMessageInterface,
@@ -44,17 +42,6 @@ const MessageBar = () => {
     }
   };
 
-  const TestIcon = styled(AttachIcon)`
-    width: 25px;
-    height: 25px;
-    color: white;
-    cursor: pointer;
-    transition: 100ms;
-    &:hover {
-      color: red;
-    }
-  `;
-
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFile(e.target.files[0]);
@@ -72,7 +59,7 @@ const MessageBar = () => {
             onChange={onFileChange}
             style={{display: "none"}}
           />
-          <TestIcon />
+          <AttachIcon />
         </label>
         <form
           onSubmit={onSubmitHandler}

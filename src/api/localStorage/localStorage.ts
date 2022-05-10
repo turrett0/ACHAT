@@ -1,6 +1,7 @@
-import {defaultDarkModeTheme, defaultLightModeTheme} from "../../GlobalStyles";
+import {getDarkModeVersion, getLightModeVersion} from "../../theme/index";
 import {themeColorsInterface} from "../../store/themeReducer/state";
 import {v4 as uuid} from "uuid";
+import {getItemFromLocalStorage, setItemToLocalStorage} from "../../storage";
 
 export enum localStorageVars {
   THEME = "theme",
@@ -11,27 +12,31 @@ export enum localStorageVars {
 }
 
 export const getLocalStorageUserName = () => {
-  const localStorageUserName = localStorage.getItem(localStorageVars.USER_NAME);
+  const localStorageUserName = getItemFromLocalStorage(
+    localStorageVars.USER_NAME
+  );
   if (localStorageUserName) {
     return localStorageUserName;
   }
 };
 
 export const setLocalStorageUserName = (username: string) =>
-  localStorage.setItem(localStorageVars.USER_NAME, username);
+  setItemToLocalStorage(localStorageVars.USER_NAME, username);
 
 export const getLocalStorageUserID = () => {
-  const localStorageUserID = localStorage.getItem(localStorageVars.USER_ID);
+  const localStorageUserID = getItemFromLocalStorage(localStorageVars.USER_ID);
   if (localStorageUserID) return localStorageUserID;
   const newUserId = uuid();
-  localStorage.setItem(localStorageVars.USER_ID, JSON.stringify(newUserId));
+  setItemToLocalStorage(localStorageVars.USER_ID, JSON.stringify(newUserId));
   return newUserId;
 };
-export const localStorageTheme = localStorage.getItem(localStorageVars.THEME);
-export const localStorageDarkMode = localStorage.getItem(
+export const getlocalStorageTheme = getItemFromLocalStorage(
+  localStorageVars.THEME
+);
+export const getlocalStorageDarkMode = getItemFromLocalStorage(
   localStorageVars.DARK_MODE
 );
-export const localStorageSystemColorScheme = localStorage.getItem(
+export const getlocalStorageSystemColorScheme = getItemFromLocalStorage(
   localStorageVars.DATA_AUTO_THEME
 );
 
@@ -39,32 +44,19 @@ export const setThemeToLocalStorage = (
   darkMode: boolean,
   themeColors: themeColorsInterface
 ) => {
-  const darkModeVersion = {
-    ...defaultDarkModeTheme,
-    accentColor: themeColors.accentColor,
-    mineMessageColor: themeColors.mineMessageColor,
-    strangerMessageColor: themeColors.strangerMessageColor,
-  };
-
-  const lightModeVersion = {
-    ...defaultLightModeTheme,
-    accentColor: themeColors.accentColor,
-    mineMessageColor: themeColors.mineMessageColor,
-    strangerMessageColor: themeColors.strangerMessageColor,
-  };
-  localStorage.setItem(localStorageVars.DARK_MODE, JSON.stringify(darkMode));
+  setItemToLocalStorage(localStorageVars.DARK_MODE, darkMode);
 
   if (darkMode) {
-    localStorage.setItem(
+    setItemToLocalStorage(
       localStorageVars.THEME,
-      JSON.stringify(darkModeVersion)
+      getDarkModeVersion(themeColors)
     );
-    return darkModeVersion;
+    return getDarkModeVersion(themeColors);
   } else {
-    localStorage.setItem(
+    setItemToLocalStorage(
       localStorageVars.THEME,
-      JSON.stringify(lightModeVersion)
+      getLightModeVersion(themeColors)
     );
-    return lightModeVersion;
+    return getLightModeVersion(themeColors);
   }
 };

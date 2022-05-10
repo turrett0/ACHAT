@@ -27,6 +27,7 @@ const Header = () => {
   const onlineUserCount = useSelector(selectAllUsers).length;
 
   const onDisconnectHandler = () => {
+    // messageSocket.disconnect();
     messageSocket.emit("disconnectSession");
     clearMessages();
     setCurrentRoom(null);

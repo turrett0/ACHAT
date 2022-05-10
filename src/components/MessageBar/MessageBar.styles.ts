@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {IoIosAttach} from "react-icons/io";
 
 export const MessageWrapper = styled.div`
   position: fixed;
@@ -40,4 +41,12 @@ export const IconButton = styled.button`
     height: 100%;
     width: 100%;
   }
+`;
+
+export const AttachIcon = styled(IoIosAttach)`
+  width: 25px;
+  height: 25px;
+  color: white;
+  cursor: pointer;
+  transition: 100ms;
 `;

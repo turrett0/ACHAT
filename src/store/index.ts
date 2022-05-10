@@ -20,5 +20,6 @@ const rootReducer = combineReducers({
 });
 
 const store = createStore(rootReducer, composeWithDevTools());
+export const test = store;
 
 export default store;
