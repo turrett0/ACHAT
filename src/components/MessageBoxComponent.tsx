@@ -2,7 +2,6 @@ import {useSelector} from "react-redux";
 import styled from "styled-components";
 import {selectNewMessages} from "../store/selectors";
 import Message from "./Message/Message";
-import {v4 as uuid} from "uuid";
 import {useEffect, useRef} from "react";
 import {Notification} from "./Message/Message.styled";
 
@@ -24,11 +23,13 @@ const MessageBoxComponent = () => {
 
   return (
     <MessageBox ref={messageBoxRef}>
-      {messages.map((userInfo) =>
-        userInfo.userData.socketID === "system" ? (
-          <Notification key={uuid()}>{userInfo.message.text}</Notification>
+      {messages.map((messageData, index) =>
+        messageData.userData.socketID === "system" ? (
+          <Notification key={messageData.messageID}>
+            {messageData.message.text}
+          </Notification>
         ) : (
-          <Message userInfo={userInfo} key={uuid()} />
+          <Message userInfo={messageData} key={messageData.messageID} />
         )
       )}
     </MessageBox>

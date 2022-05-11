@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {useSelector} from "react-redux";
 import {
   messageInterface,
@@ -6,7 +6,6 @@ import {
 } from "../../store/messagesReducer/state";
 import {selectUserID} from "../../store/selectors";
 import base64Converter from "../../utils/Base64Convert";
-import URLReplacer from "../../utils/UrlReplacer";
 import Modal from "../Modal/Modal";
 import {
   MessageBody,
@@ -32,9 +31,9 @@ const Message: React.FC<Props> = ({userInfo}) => {
     base64Converter(message, setImage);
   }, []);
 
-  const onImageClickHandler = () => {
+  const onImageClickHandler = useCallback(() => {
     setImageFullScreen((prev) => !prev);
-  };
+  }, []);
 
   return (
     <>
@@ -46,7 +45,7 @@ const Message: React.FC<Props> = ({userInfo}) => {
           />
         )}
 
-        <MessageText dangerouslySetInnerHTML={URLReplacer(message.text)} />
+        <MessageText>{message.text}</MessageText>
         <MessageData>
           {author !== "mine" && <MessageSpan>{userData.username}</MessageSpan>}
           <MessageSpan>{time}</MessageSpan>

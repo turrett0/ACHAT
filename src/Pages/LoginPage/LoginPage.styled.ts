@@ -88,4 +88,5 @@ export const SignInIcon = styled(AiOutlineArrowRight)`
   color: white;
   cursor: pointer;
   transition: 100ms;
+  vertical-align: middle;
 `;

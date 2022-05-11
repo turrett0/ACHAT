@@ -5,10 +5,19 @@ import {
   localStorageVars,
   setThemeToLocalStorage,
 } from "../../api/localStorage/localStorage";
+import {
+  getCurrentSystemAppear,
+  getLightModeVersion,
+  getDarkModeVersion,
+} from "../../theme/index";
 
 interface toggleSystemColorSchemeInterface {
   type: themeActionTypes.TOGGLE_SYSTEM_COLOR_SCHEME;
-  payload: themeStore["systemColorScheme"];
+  payload: {
+    colorSchemeData: themeStore["systemColorScheme"];
+    theme: themeStore["themeColors"];
+    darkModeState: themeStore["darkMode"];
+  };
 }
 
 interface setSystemColorsInterface {
@@ -23,15 +32,27 @@ interface setDarkModeInterface {
 
 export const themeActionsObject = {
   toggleSystemColorScheme: (): toggleSystemColorSchemeInterface => {
+    const isDarkMode = getCurrentSystemAppear();
+    const currentTheme = store.getState().themeReducer.themeColors;
+    const newTheme = isDarkMode
+      ? getDarkModeVersion(currentTheme)
+      : getLightModeVersion(currentTheme);
+    console.log(newTheme);
+
     const newSystemColorSchemeState =
       !store.getState().themeReducer.systemColorScheme;
+
     setItemToLocalStorage(
       localStorageVars.DATA_AUTO_THEME,
       newSystemColorSchemeState
     );
     return {
       type: themeActionTypes.TOGGLE_SYSTEM_COLOR_SCHEME,
-      payload: newSystemColorSchemeState,
+      payload: {
+        colorSchemeData: newSystemColorSchemeState,
+        theme: newTheme,
+        darkModeState: isDarkMode,
+      },
     };
   },
   setThemeColors: (payload: themeColorsInterface): setSystemColorsInterface => {

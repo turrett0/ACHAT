@@ -24,7 +24,9 @@ export const themeReducer = produce(
   (draft: Draft<themeStore>, action: StyleActions) => {
     switch (action.type) {
       case themeActionTypes.TOGGLE_SYSTEM_COLOR_SCHEME:
-        draft.systemColorScheme = action.payload;
+        draft.systemColorScheme = action.payload.colorSchemeData;
+        draft.themeColors = action.payload.theme;
+        draft.darkMode = action.payload.darkModeState;
         break;
       case themeActionTypes.SET_THEME_COLORS:
         draft.themeColors = action.payload;

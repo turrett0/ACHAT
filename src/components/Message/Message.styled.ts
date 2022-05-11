@@ -59,6 +59,8 @@ export const MessageSpan = styled.span`
 `;
 
 export const MessageData = styled.div`
+  display: flex;
+  align-items: center;
   align-self: flex-end;
   height: 18px;
   padding: 0 4px;

@@ -1,22 +1,25 @@
 import {themeColorsInterface} from "../store/themeReducer/state";
 
-export const getDarkModeVersion = (themeColors: themeColorsInterface) => ({
+export const getDarkModeVersion = (
+  themeColors: themeColorsInterface
+): themeColorsInterface => ({
   ...defaultDarkModeTheme,
   accentColor: themeColors.accentColor,
   mineMessageColor: themeColors.mineMessageColor,
   strangerMessageColor: themeColors.strangerMessageColor,
 });
 
-export const getLightModeVersion = (themeColors: themeColorsInterface) => ({
+export const getLightModeVersion = (
+  themeColors: themeColorsInterface
+): themeColorsInterface => ({
   ...defaultLightModeTheme,
   accentColor: themeColors.accentColor,
   mineMessageColor: themeColors.mineMessageColor,
   strangerMessageColor: themeColors.strangerMessageColor,
 });
 
-export const getCurrentSystemAppear = window.matchMedia(
-  "(prefers-color-scheme: dark)"
-).matches;
+export const getCurrentSystemAppear = (): boolean =>
+  window.matchMedia("(prefers-color-scheme: dark)").matches;
 
 export const defaultLightModeTheme = {
   accentColor: "rgb(59, 77, 145)",

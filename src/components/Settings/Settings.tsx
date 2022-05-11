@@ -62,6 +62,7 @@ const Settings = () => {
                     color: "",
                     username: "Пользователь",
                   },
+                  messageID: "",
                   message: {
                     text: "Тестовое сообщение",
                     type: messageTypes.TEXT_MESSAGE,
@@ -85,6 +86,7 @@ const Settings = () => {
                     color: "",
                     username: "Пользователь",
                   },
+                  messageID: "",
                   message: {
                     text: "Тестовое сообщение",
                     type: messageTypes.TEXT_MESSAGE,
@@ -104,21 +106,25 @@ const Settings = () => {
                 }
               />
             </SettingsBlock>
-            <button
-              onClick={toggleSystemColorScheme}
-              style={{background: isSystemColorScheme ? "green" : "red"}}
-            >
-              Set System color scheme
-            </button>{" "}
-            <label>
-              <span>Dark Mode</span>
-              <input
-                disabled={isSystemColorScheme}
-                type="checkbox"
-                checked={isDarkMode}
-                onChange={() => setDarkMode()}
-              />
-            </label>
+            <SettingsBlock>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isSystemColorScheme}
+                  onChange={toggleSystemColorScheme}
+                />
+                <span>Использовать системную тему</span>
+              </label>
+              <label>
+                <input
+                  disabled={isSystemColorScheme}
+                  type="checkbox"
+                  checked={isDarkMode}
+                  onChange={() => setDarkMode()}
+                />
+                <span>Ночная тема</span>
+              </label>
+            </SettingsBlock>
           </SettingsWrapper>
         </SettingsBG>
       </Modal>

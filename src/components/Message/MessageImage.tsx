@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 
 interface Props {
   image: any;
@@ -15,4 +15,4 @@ const MessageImage: React.FC<Props> = ({image, onImageClickHandler}) => {
   );
 };
 
-export default MessageImage;
+export default memo(MessageImage);

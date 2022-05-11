@@ -36,4 +36,12 @@ export const SettingsBlock = styled.div`
     margin-bottom: 0.8rem;
     font-weight: 600;
   }
+
+  & label {
+    margin-bottom: 10px;
+
+    & input {
+      margin-right: 0.5rem;
+    }
+  }
 `;

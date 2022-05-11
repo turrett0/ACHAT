@@ -33,6 +33,7 @@ export interface fileMessageInterface {
 
 export interface messageInterface {
   userData: userInterface;
+  messageID: string;
   message: textMessageInterface | fileMessageInterface;
   time: string;
 }

@@ -33,7 +33,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (isSystemColorScheme) {
-      const isDarkMode = getCurrentSystemAppear;
+      const isDarkMode = getCurrentSystemAppear();
       if (isDarkMode) {
         setDarkMode(true);
       } else {
