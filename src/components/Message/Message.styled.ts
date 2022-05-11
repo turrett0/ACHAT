@@ -8,7 +8,7 @@ export const MessageBody = styled.div.attrs(
     props.author === "mine"
       ? props.theme.mineMessageColor
       : props.theme.strangerMessageColor};
-  min-width: 10vw;
+  min-width: 13vw;
   max-width: 35vw;
   display: flex;
   overflow: hidden;
@@ -20,7 +20,7 @@ export const MessageBody = styled.div.attrs(
   right: ${(props) => (props.author === "mine" ? 0 : "initial")};
   margin: 25px 15px 0 15px;
   border-radius: 0.5rem;
-  padding: ${(props) => (props.type === "fileMessage" ? "0" : "5px 10px")};
+  padding: ${(props) => (props.type === "fileMessage" ? "0" : "5px")};
   color: white;
   word-wrap: break-word;
 
@@ -50,11 +50,11 @@ export const Notification = styled.div`
 export const MessageText = styled.span`
   font-size: 16px;
   width: 100%;
-  padding: 10px 10px 0 10px;
+  padding: 10px;
 `;
 
 export const MessageSpan = styled.span`
-  font-size: 9px;
+  font-size: 10px;
   margin-right: 4px;
 `;
 

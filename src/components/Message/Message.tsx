@@ -3,6 +3,7 @@ import {useSelector} from "react-redux";
 import {
   messageInterface,
   messageAuthor,
+  messageTypes,
 } from "../../store/messagesReducer/state";
 import {selectUserID} from "../../store/selectors";
 import base64Converter from "../../utils/Base64Convert";
@@ -39,17 +40,38 @@ const Message: React.FC<Props> = ({userInfo}) => {
     <>
       <MessageBody author={author} type={message.type}>
         {image && (
-          <MessageImage
-            image={image}
-            onImageClickHandler={onImageClickHandler}
-          />
+          <>
+            <MessageImage
+              image={image}
+              onImageClickHandler={onImageClickHandler}
+            />
+            <div
+              style={{
+                position: "absolute",
+                bottom: 5,
+                right: 0,
+                backdropFilter: "blur(2px)",
+              }}
+            >
+              <MessageData>
+                {author !== "mine" && (
+                  <MessageSpan>{userData.username}</MessageSpan>
+                )}
+                <MessageSpan>{time}</MessageSpan>
+              </MessageData>
+            </div>
+          </>
         )}
 
-        <MessageText>{message.text}</MessageText>
-        <MessageData>
-          {author !== "mine" && <MessageSpan>{userData.username}</MessageSpan>}
-          <MessageSpan>{time}</MessageSpan>
-        </MessageData>
+        {message.text.length > 0 && <MessageText>{message.text}</MessageText>}
+        {message.type !== messageTypes.FILE_MESSAGE && (
+          <MessageData>
+            {author !== "mine" && (
+              <MessageSpan>{userData.username}</MessageSpan>
+            )}
+            <MessageSpan>{time}</MessageSpan>
+          </MessageData>
+        )}
       </MessageBody>
       {imageFullScreen && (
         <Modal bgColor={"rgba(0,0,0,.8)"} callback={setImageFullScreen}>
