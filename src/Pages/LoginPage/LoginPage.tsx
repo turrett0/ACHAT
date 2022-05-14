@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
-import {messageSocket} from "../../api/websocket";
 import useActions from "../../hooks/useActions";
 import CustomSelect from "../../components/CustomSelect";
 import {useSelector} from "react-redux";
@@ -12,6 +11,8 @@ import {
   selectUserID,
   selectUserName,
 } from "../../store/selectors";
+
+import {registrationRequest} from "../../api/websocket/actions";
 
 interface CustomizedState {
   from: {
@@ -58,12 +59,12 @@ const LoginPage = () => {
       setUserName(inputRef.current.value);
       setCurrentRoom(room);
       setAuth(true);
-      messageSocket.emit("registerNewUser", {
+
+      registrationRequest({
         username: inputRef.current.value,
-        room: room.roomID,
+        room: room,
         userID: userID,
       });
-
       navigate(fromPage);
     } else {
       if (inputRef.current && inputRef.current.value.length <= 3) {

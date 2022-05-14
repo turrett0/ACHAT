@@ -37,7 +37,6 @@ export const themeActionsObject = {
     const newTheme = isDarkMode
       ? getDarkModeVersion(currentTheme)
       : getLightModeVersion(currentTheme);
-    console.log(newTheme);
 
     const newSystemColorSchemeState =
       !store.getState().themeReducer.systemColorScheme;

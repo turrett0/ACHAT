@@ -34,41 +34,75 @@ export interface clearMessagesInterface {
   type: messagesActionTypes.CLEAR_MESSAGES;
 }
 
+export interface loadMoreMessagesInterface {
+  type: messagesActionTypes.LOAD_MORE_MESSAGES;
+  payload: messageInterface[];
+}
+
+export interface setPaginationAvailabilityInterface {
+  type: messagesActionTypes.SET_PAGINATION_AVAILABILITY;
+  payload: messagesStore["isPaginationAvailable"];
+}
+
+export interface setIsLoadingMessagesInterface {
+  type: messagesActionTypes.SET_IS_MESSAGES_LOADING;
+  payload: messagesStore["isLoadingMessages"];
+}
+
 export type messagesActions =
   | setNewMessageInterface
   | userRegistrationInterface
   | setNewUserInterface
   | removeUserInterface
   | setUsersInterface
-  | clearMessagesInterface;
+  | clearMessagesInterface
+  | loadMoreMessagesInterface
+  | setPaginationAvailabilityInterface
+  | setIsLoadingMessagesInterface;
 
 export const messagesActionsObject = {
-  setNewMessage: (payload: messageInterface): setNewMessageInterface => {
-    return {
-      type: messagesActionTypes.SET_NEW_MESSAGE,
-      payload: payload,
-    };
-  },
+  setNewMessage: (payload: messageInterface): setNewMessageInterface => ({
+    type: messagesActionTypes.SET_NEW_MESSAGE,
+    payload,
+  }),
+  loadMoreMessages: (
+    payload: messageInterface[]
+  ): loadMoreMessagesInterface => ({
+    type: messagesActionTypes.LOAD_MORE_MESSAGES,
+    payload,
+  }),
   setUsers: (payload: Array<userInterface>): setUsersInterface => ({
     type: messagesActionTypes.SET_USERS,
-    payload: payload,
+    payload,
   }),
   userRegistration: (
     payload: userRegistrationData
   ): userRegistrationInterface => ({
     type: messagesActionTypes.SET_USER_ID,
-    payload: payload,
+    payload,
   }),
   setNewUser: (payload: userInterface): setNewUserInterface => ({
     type: messagesActionTypes.SET_NEW_USER,
-    payload: payload,
+    payload,
   }),
   removeUser: (payload: userInterface): removeUserInterface => ({
     type: messagesActionTypes.REMOVE_USER,
-    payload: payload,
+    payload,
   }),
 
   clearMessages: (): clearMessagesInterface => ({
     type: messagesActionTypes.CLEAR_MESSAGES,
+  }),
+  setPaginationAvailability: (
+    payload: messagesStore["isPaginationAvailable"]
+  ): setPaginationAvailabilityInterface => ({
+    type: messagesActionTypes.SET_PAGINATION_AVAILABILITY,
+    payload,
+  }),
+  setIsLoadingMessages: (
+    payload: messagesStore["isLoadingMessages"]
+  ): setIsLoadingMessagesInterface => ({
+    type: messagesActionTypes.SET_IS_MESSAGES_LOADING,
+    payload,
   }),
 };

@@ -7,6 +7,15 @@ export const selectConnectionStatus = (
   state: IRootState
 ): appStore["connectionStatus"] => state.appReducer.connectionStatus;
 
+export const selectIsPaginationAvailable = (
+  state: IRootState
+): messagesStore["isPaginationAvailable"] =>
+  state.messagesReducer.isPaginationAvailable;
+export const selectIsMessagesLoading = (
+  state: IRootState
+): messagesStore["isLoadingMessages"] =>
+  state.messagesReducer.isLoadingMessages;
+
 export const selectIsAuth = (state: IRootState): appStore["isAuth"] =>
   state.appReducer.isAuth;
 

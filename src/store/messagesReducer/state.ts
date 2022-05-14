@@ -8,6 +8,9 @@ export enum messagesActionTypes {
   SET_CURRENT_ROOM = "SET_CURRENT_ROOM",
   CLEAR_MESSAGES = "CLEAR_MESSAGES",
   CONTROL_MENU = "CONTROL_MENU",
+  LOAD_MORE_MESSAGES = "LOAD_MORE_MESSAGES",
+  SET_PAGINATION_AVAILABILITY = "SET_PAGINATION_AVAILABILITY",
+  SET_IS_MESSAGES_LOADING = "SET_IS_MESSAGES_LOADING",
 }
 
 export type messageAuthor = "mine" | "stranger" | "system";
@@ -49,6 +52,8 @@ export type messagesStore = {
   socketID: string;
   users: Array<userInterface>;
   messages: messageInterface[];
+  isPaginationAvailable: boolean;
+  isLoadingMessages: boolean;
 };
 
 export type userRegistrationData = {

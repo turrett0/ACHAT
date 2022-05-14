@@ -15,11 +15,13 @@ import {
   HeaderMenuButton,
   LeaveButton,
 } from "./Header.styled";
+import {socketActions} from "../../api/websocket/state";
 
 const Header = () => {
   const {pathname} = useLocation();
   const navigate = useNavigate();
-  const {clearMessages, setCurrentRoom, setAuth} = useActions();
+  const {clearMessages, setCurrentRoom, setAuth, setPaginationAvailability} =
+    useActions();
 
   const {controlMenu} = useActions();
   const currentRoom = useSelector(selectCurrentRoom);
@@ -28,10 +30,11 @@ const Header = () => {
 
   const onDisconnectHandler = () => {
     // messageSocket.disconnect();
-    messageSocket.emit("disconnectSession");
+    messageSocket.emit(socketActions.DISCONNECT_SESSION);
     clearMessages();
     setCurrentRoom(null);
     setAuth(false);
+    setPaginationAvailability(true);
     navigate("/login");
   };
 

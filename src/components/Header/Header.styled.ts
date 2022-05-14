@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {IconButton} from "../MessageBar/MessageBar.styles";
+import {IconButton} from "../MessageBar/MessageBar.styled";
 
 export const CustomHeader = styled.header`
   background-color: ${({theme}) => theme.accentColor};

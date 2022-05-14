@@ -8,20 +8,17 @@ import {
 } from "../../store/messagesReducer/state";
 import {appActionsObject} from "../../store/appReducer/actionCreator";
 import {connectionStatusTypes} from "../../store/appReducer/state";
+import {socketEvents} from "./state";
+import {registrationRequest} from "./actions";
 
-export enum socketEvents {
-  CONNECTED = "connect",
-  CONNECT_ERROR = "connect_error",
-  CONNECT_USER = "connectUser",
-  RECIEVE_MESSAGE = "message",
-  REGISTRATION = "id",
-  NEW_USER_CONNECTION = "newUserConnected",
-  USER_DISCONNECT = "disconnectUser",
-  RECONNECT = "reconnect",
-}
-
-const {setNewMessage, userRegistration, setNewUser, setUsers} =
-  messagesActionsObject;
+const {
+  setNewMessage,
+  userRegistration,
+  setNewUser,
+  setUsers,
+  loadMoreMessages,
+  setPaginationAvailability,
+} = messagesActionsObject;
 const {setConnectionStatus} = appActionsObject;
 export const messageSocket = io("ws://192.168.3.7:6969");
 
@@ -33,12 +30,12 @@ messageSocket.on(socketEvents.CONNECTED, () => {
   const regData = {
     userID: appStore.userID,
     username: appStore.userName,
-    room: appStore.room?.roomID,
+    room: appStore.room,
   };
 
   //On reconnect re-registration
   if (isAuth) {
-    messageSocket.emit("registerNewUser", regData);
+    registrationRequest(regData, true);
   }
 });
 
@@ -62,9 +59,17 @@ messageSocket.on(socketEvents.CONNECT_USER, (user: userInterface) => {
   store.dispatch(setNewUser(user));
 });
 
-messageSocket.on(socketEvents.RECONNECT, () => {
-  // messageSocket.emit;
-});
+messageSocket.on(
+  socketEvents.LOAD_MORE_MESSAGES,
+  (data: messageInterface[]) => {
+    console.log(data);
+    if (data.length > 0) {
+      store.dispatch(loadMoreMessages(data));
+    } else {
+      store.dispatch(setPaginationAvailability(false));
+    }
+  }
+);
 
 messageSocket.on(
   socketEvents.USER_DISCONNECT,
@@ -72,6 +77,5 @@ messageSocket.on(
     store.dispatch(setUsers(users));
     if (store.getState().appReducer.room?.roomID === "random") {
     }
-    // store.dispatch(setConnectionStatus(connectionStatusTypes.DISCONNECTED));
   }
 );

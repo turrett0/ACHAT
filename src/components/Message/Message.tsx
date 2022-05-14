@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect, useCallback, memo} from "react";
 import {useSelector} from "react-redux";
 import {
   messageInterface,
@@ -13,6 +13,7 @@ import {
   MessageText,
   MessageSpan,
   MessageData,
+  MessageFlowData,
 } from "./Message.styled";
 import MessageImage from "./MessageImage";
 
@@ -30,7 +31,7 @@ const Message: React.FC<Props> = ({userInfo}) => {
 
   useEffect(() => {
     base64Converter(message, setImage);
-  }, []);
+  }, [message]);
 
   const onImageClickHandler = useCallback(() => {
     setImageFullScreen((prev) => !prev);
@@ -45,21 +46,14 @@ const Message: React.FC<Props> = ({userInfo}) => {
               image={image}
               onImageClickHandler={onImageClickHandler}
             />
-            <div
-              style={{
-                position: "absolute",
-                bottom: 5,
-                right: 0,
-                backdropFilter: "blur(2px)",
-              }}
-            >
+            <MessageFlowData>
               <MessageData>
                 {author !== "mine" && (
                   <MessageSpan>{userData.username}</MessageSpan>
                 )}
                 <MessageSpan>{time}</MessageSpan>
               </MessageData>
-            </div>
+            </MessageFlowData>
           </>
         )}
 
@@ -92,4 +86,4 @@ const Message: React.FC<Props> = ({userInfo}) => {
   );
 };
 
-export default Message;
+export default memo(Message);

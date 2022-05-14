@@ -1,9 +1,19 @@
 import {useSelector} from "react-redux";
 import styled from "styled-components";
-import {selectNewMessages} from "../store/selectors";
+import {
+  selectCurrentRoom,
+  selectIsMessagesLoading,
+  selectIsPaginationAvailable,
+  selectNewMessages,
+} from "../store/selectors";
 import Message from "./Message/Message";
-import {useEffect, useRef} from "react";
+import {useCallback, useEffect, useRef} from "react";
 import {Notification} from "./Message/Message.styled";
+import {throttle} from "../utils/throttle";
+import {getMoreMessagesRequest} from "../api/websocket/actions";
+import {paginationData} from "../api/websocket/state";
+import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
+import useActions from "../hooks/useActions";
 
 const MessageBox = styled.div`
   position: relative;
@@ -13,17 +23,41 @@ const MessageBox = styled.div`
 `;
 
 const MessageBoxComponent = () => {
+  const isPaginationAvailable = useSelector(selectIsPaginationAvailable);
+  const isMessagesLoading = useSelector(selectIsMessagesLoading);
+  const {setIsLoadingMessages} = useActions();
   const messageBoxRef = useRef<HTMLDivElement>(null);
   const messages = useSelector(selectNewMessages);
-  useEffect(() => {
-    if (messageBoxRef.current) {
-      window.scrollTo(0, messageBoxRef.current.scrollHeight);
-    }
-  }, []);
+  const room = useSelector(selectCurrentRoom)?.roomID;
+  const data = {
+    lastMessageID: messages[0]?.messageID,
+    require: 20,
+    room,
+  } as paginationData;
 
+  const requestMessages = useCallback(
+    throttle(() => {
+      if (messageBoxRef.current) {
+        if (document.documentElement.scrollTop < 100 && isPaginationAvailable) {
+          console.log("req");
+          // getMoreMessagesRequest(data);
+          // setIsLoadingMessages(true);
+        }
+      }
+    }, 1000),
+    [data, isPaginationAvailable]
+  );
+
+  useEffect(() => {
+    document.addEventListener("scroll", requestMessages);
+    return () => {
+      document.removeEventListener("scroll", requestMessages);
+    };
+  }, [requestMessages]);
   return (
     <MessageBox ref={messageBoxRef}>
-      {messages.map((messageData, index) =>
+      {isMessagesLoading && <LoadingSpinner />}
+      {messages.map((messageData) =>
         messageData.userData.socketID === "system" ? (
           <Notification key={messageData.messageID}>
             {messageData.message.text}

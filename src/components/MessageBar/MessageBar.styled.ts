@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import {IoIosAttach} from "react-icons/io";
 
-export const MessageWrapper = styled.div`
+export const MessageWrapper = styled.div.attrs(
+  (props: {isConnected: boolean}) => props
+)`
+  background-color: ${({theme, isConnected}) =>
+    isConnected ? theme.accentColor : "lightgray"};
   position: fixed;
   bottom: 0;
 `;
@@ -13,7 +17,6 @@ export const MessageBarElement = styled.div`
   height: 3rem;
   height: 3.5rem;
   width: 100vw;
-  background-color: ${({theme}) => theme.accentColor};
 `;
 export const MessageInput = styled.input`
   width: 95%;

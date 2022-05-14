@@ -65,3 +65,10 @@ export const MessageData = styled.div`
   height: 18px;
   padding: 0 4px;
 `;
+
+export const MessageFlowData = styled.div`
+  position: absolute;
+  bottom: 5px;
+  right: 0;
+  backdrop-filter: blur(2px);
+`;
