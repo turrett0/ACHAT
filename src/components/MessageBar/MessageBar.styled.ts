@@ -30,21 +30,6 @@ export const MessageInput = styled.input`
     color: white;
   }
 `;
-export const IconButton = styled.button`
-  color: #fff;
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  outline: none;
-  text-align: center;
-
-  & svg {
-    height: 100%;
-    width: 100%;
-  }
-`;
 
 export const AttachIcon = styled(IoIosAttach)`
   width: 25px;

@@ -27,3 +27,7 @@ export function sendMessageRequest(
 export function getMoreMessagesRequest(data: paginationData) {
   messageSocket.emit(socketActions.REQUEST_MORE_MESSAGES, data);
 }
+
+export function disconnectRequest(data?: any) {
+  messageSocket.emit(socketActions.DISCONNECT_SESSION, data);
+}

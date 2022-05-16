@@ -59,7 +59,6 @@ const Settings = () => {
                   userData: {
                     socketID: "test",
                     userID: userID,
-                    color: "",
                     username: "Пользователь",
                   },
                   messageID: "",
@@ -83,7 +82,6 @@ const Settings = () => {
                   userData: {
                     socketID: "",
                     userID: "0",
-                    color: "",
                     username: "Пользователь",
                   },
                   messageID: "",

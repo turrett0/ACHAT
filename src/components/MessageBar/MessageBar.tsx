@@ -2,21 +2,33 @@ import {useRef, useState} from "react";
 import ImagePanel from "../ImagePanel/ImagePanel";
 import {messageTypes} from "../../store/messagesReducer/state";
 import {useSelector} from "react-redux";
-import {selectConnectionStatus} from "../../store/selectors";
+import {
+  selectAllUsers,
+  selectConnectionStatus,
+  selectCurrentRoom,
+} from "../../store/selectors";
 import {connectionStatusTypes} from "../../store/appReducer/state";
-import {sendMessageRequest} from "../../api/websocket/actions";
+import {
+  disconnectRequest,
+  sendMessageRequest,
+} from "../../api/websocket/actions";
 import {AiOutlineArrowUp as SendButtonIcon} from "react-icons/ai";
 import {
   MessageWrapper,
-  IconButton,
   MessageInput,
   MessageBarElement,
   AttachIcon,
 } from "./MessageBar.styled";
+import {AiOutlineReload as RetryButton} from "react-icons/ai";
+
+import {IconButton} from "../IconButton";
 import useActions from "../../hooks/useActions";
 
 const MessageBar = () => {
-  const {setIsLoadingMessages} = useActions();
+  const {clearMessages} = useActions();
+  const onlineUsers = useSelector(selectAllUsers);
+  const currentRoom = useSelector(selectCurrentRoom);
+  const isRandomRoom = currentRoom?.roomID === "random";
   const isConnected =
     useSelector(selectConnectionStatus) === connectionStatusTypes.CONNECTED;
   const [file, setFile] = useState<File | null>(null);
@@ -39,7 +51,6 @@ const MessageBar = () => {
           text: inputRef.current.value,
         });
       }
-      setIsLoadingMessages(true);
       setFile(null);
       inputRef.current.value = "";
     }
@@ -51,10 +62,25 @@ const MessageBar = () => {
     }
   };
 
+  const onChangeUserHandler = () => {
+    console.log(onlineUsers);
+    if (isRandomRoom) {
+      disconnectRequest({
+        room: currentRoom.roomID,
+        users: onlineUsers,
+        query: "relaunch",
+      });
+      clearMessages();
+    }
+  };
+
   return (
     <MessageWrapper isConnected={isConnected}>
       {file && <ImagePanel images={file} />}
       <MessageBarElement>
+        <IconButton onClick={onChangeUserHandler}>
+          <RetryButton />
+        </IconButton>
         <label>
           <input
             type="file"

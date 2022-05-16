@@ -17,10 +17,10 @@ const {
   setNewUser,
   setUsers,
   loadMoreMessages,
-  setPaginationAvailability,
+  setRandomSession,
 } = messagesActionsObject;
 const {setConnectionStatus} = appActionsObject;
-export const messageSocket = io("ws://192.168.3.7:6969");
+export const messageSocket = io("ws://localhost:6969");
 
 messageSocket.on(socketEvents.CONNECTED, () => {
   store.dispatch(setConnectionStatus(connectionStatusTypes.CONNECTED));
@@ -39,7 +39,8 @@ messageSocket.on(socketEvents.CONNECTED, () => {
   }
 });
 
-messageSocket.on(socketEvents.CONNECT_ERROR, () => {
+messageSocket.on(socketEvents.CONNECT_ERROR, (e) => {
+  console.log(e);
   store.dispatch(setConnectionStatus(connectionStatusTypes.CONNECT_ERROR));
 });
 
@@ -52,6 +53,7 @@ messageSocket.on(socketEvents.RECIEVE_MESSAGE, (message: messageInterface) => {
 });
 
 messageSocket.on(socketEvents.REGISTRATION, (regData: userRegistrationData) => {
+  console.log(regData);
   store.dispatch(userRegistration(regData));
 });
 
@@ -59,17 +61,14 @@ messageSocket.on(socketEvents.CONNECT_USER, (user: userInterface) => {
   store.dispatch(setNewUser(user));
 });
 
-messageSocket.on(
-  socketEvents.LOAD_MORE_MESSAGES,
-  (data: messageInterface[]) => {
-    console.log(data);
-    if (data.length > 0) {
-      store.dispatch(loadMoreMessages(data));
-    } else {
-      store.dispatch(setPaginationAvailability(false));
-    }
-  }
-);
+messageSocket.on(socketEvents.LOAD_MORE_MESSAGES, (data: any) => {
+  store.dispatch(loadMoreMessages(data));
+});
+
+messageSocket.on("setRandomChatSession", (data) => {
+  console.log("data random:", data);
+  store.dispatch(setRandomSession(data));
+});
 
 messageSocket.on(
   socketEvents.USER_DISCONNECT,

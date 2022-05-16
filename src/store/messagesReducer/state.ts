@@ -11,6 +11,7 @@ export enum messagesActionTypes {
   LOAD_MORE_MESSAGES = "LOAD_MORE_MESSAGES",
   SET_PAGINATION_AVAILABILITY = "SET_PAGINATION_AVAILABILITY",
   SET_IS_MESSAGES_LOADING = "SET_IS_MESSAGES_LOADING",
+  SET_RANDOM_SESSION = "SET_RANDOM_SESSION",
 }
 
 export type messageAuthor = "mine" | "stranger" | "system";
@@ -45,7 +46,6 @@ export interface userInterface {
   username: string;
   userID: string;
   socketID: string;
-  color: string;
 }
 
 export type messagesStore = {
@@ -59,5 +59,5 @@ export type messagesStore = {
 export type userRegistrationData = {
   socketID: string;
   onlineUsers: Array<userInterface>;
-  chatHistory: messageInterface[];
+  chatHistory: {messages: messageInterface[]; nextPagination: boolean};
 };

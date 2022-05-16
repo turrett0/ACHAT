@@ -1,6 +1,6 @@
 import React from "react";
 import {useSelector} from "react-redux";
-import Select, {Theme} from "react-select";
+import Select from "react-select";
 import {appStore} from "../store/appReducer/state";
 import {selectThemeColors} from "../store/selectors";
 
@@ -24,7 +24,7 @@ const CustomSelect: React.FC<Props> = ({
     {value: "random", label: "Чат со случайным пользователем"},
   ];
   const customSelectStyles = {
-    menu: (provided: any, state: any) => ({
+    menu: (provided: any) => ({
       ...provided,
       width: "100%",
       color: theme.accentColor,
@@ -32,7 +32,7 @@ const CustomSelect: React.FC<Props> = ({
       background: theme.bgColor,
       zIndex: 0,
     }),
-    container: (provided: any, state: any) => ({
+    container: (provided: any) => ({
       ...provided,
       width: "100%",
       color: theme.accentColor,
@@ -40,13 +40,18 @@ const CustomSelect: React.FC<Props> = ({
     control: (provided: any, state: any) => ({
       ...provided,
       background: state.isDisabled ? "lightgray" : theme.bgColor,
+      "&:hover": {},
+      boxShadow: state.isFocused
+        ? `0px 0px 0px 1px ${theme.accentColor}`
+        : "none",
+      border: `1px solid lightgray`,
     }),
     placeholder: (provided: any, state: any) => ({
       ...provided,
       color: theme.reversedTextColor,
       background: state.isDisabled ? "lightgray" : theme.bgColor,
     }),
-    input: (provided: any, state: any) => ({
+    input: (provided: any) => ({
       ...provided,
       color: theme.reversedTextColor,
     }),
@@ -63,7 +68,7 @@ const CustomSelect: React.FC<Props> = ({
       border: "none",
       cursor: "pointer",
     }),
-    singleValue: (p: any, s: any) => ({
+    singleValue: (p: any) => ({
       ...p,
       color: theme.reversedTextColor,
     }),
@@ -76,21 +81,11 @@ const CustomSelect: React.FC<Props> = ({
         roomValue &&
         onChangeHandler({roomID: roomValue.value, roomName: roomValue.label})
       }
-      defaultMenuIsOpen={!isConnected}
       isClearable={true}
       defaultValue={{value: "room1", label: "Room 1"}}
       options={options}
       placeholder={"Доступные комнаты"}
       styles={customSelectStyles}
-      theme={(themes: Theme) => ({
-        ...themes,
-        borderRadius: 3,
-        border: "none",
-        colors: {
-          ...themes.colors,
-          primary: theme.accentColor,
-        },
-      })}
     />
   );
 };

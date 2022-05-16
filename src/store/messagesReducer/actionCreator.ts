@@ -36,7 +36,10 @@ export interface clearMessagesInterface {
 
 export interface loadMoreMessagesInterface {
   type: messagesActionTypes.LOAD_MORE_MESSAGES;
-  payload: messageInterface[];
+  payload: {
+    messages: messageInterface[];
+    nextPagination: messagesStore["isPaginationAvailable"];
+  };
 }
 
 export interface setPaginationAvailabilityInterface {
@@ -49,6 +52,13 @@ export interface setIsLoadingMessagesInterface {
   payload: messagesStore["isLoadingMessages"];
 }
 
+export interface setRandomSessionInterface {
+  type: messagesActionTypes.SET_RANDOM_SESSION;
+  payload: {
+    users: userInterface[];
+  };
+}
+
 export type messagesActions =
   | setNewMessageInterface
   | userRegistrationInterface
@@ -58,7 +68,8 @@ export type messagesActions =
   | clearMessagesInterface
   | loadMoreMessagesInterface
   | setPaginationAvailabilityInterface
-  | setIsLoadingMessagesInterface;
+  | setIsLoadingMessagesInterface
+  | setRandomSessionInterface;
 
 export const messagesActionsObject = {
   setNewMessage: (payload: messageInterface): setNewMessageInterface => ({
@@ -66,26 +77,30 @@ export const messagesActionsObject = {
     payload,
   }),
   loadMoreMessages: (
-    payload: messageInterface[]
+    payload: loadMoreMessagesInterface["payload"]
   ): loadMoreMessagesInterface => ({
     type: messagesActionTypes.LOAD_MORE_MESSAGES,
     payload,
   }),
-  setUsers: (payload: Array<userInterface>): setUsersInterface => ({
+  setUsers: (payload: setUsersInterface["payload"]): setUsersInterface => ({
     type: messagesActionTypes.SET_USERS,
     payload,
   }),
   userRegistration: (
-    payload: userRegistrationData
+    payload: userRegistrationInterface["payload"]
   ): userRegistrationInterface => ({
     type: messagesActionTypes.SET_USER_ID,
     payload,
   }),
-  setNewUser: (payload: userInterface): setNewUserInterface => ({
+  setNewUser: (
+    payload: setNewUserInterface["payload"]
+  ): setNewUserInterface => ({
     type: messagesActionTypes.SET_NEW_USER,
     payload,
   }),
-  removeUser: (payload: userInterface): removeUserInterface => ({
+  removeUser: (
+    payload: removeUserInterface["payload"]
+  ): removeUserInterface => ({
     type: messagesActionTypes.REMOVE_USER,
     payload,
   }),
@@ -94,15 +109,21 @@ export const messagesActionsObject = {
     type: messagesActionTypes.CLEAR_MESSAGES,
   }),
   setPaginationAvailability: (
-    payload: messagesStore["isPaginationAvailable"]
+    payload: setPaginationAvailabilityInterface["payload"]
   ): setPaginationAvailabilityInterface => ({
     type: messagesActionTypes.SET_PAGINATION_AVAILABILITY,
     payload,
   }),
   setIsLoadingMessages: (
-    payload: messagesStore["isLoadingMessages"]
+    payload: setIsLoadingMessagesInterface["payload"]
   ): setIsLoadingMessagesInterface => ({
     type: messagesActionTypes.SET_IS_MESSAGES_LOADING,
+    payload,
+  }),
+  setRandomSession: (
+    payload: setRandomSessionInterface["payload"]
+  ): setRandomSessionInterface => ({
+    type: messagesActionTypes.SET_RANDOM_SESSION,
     payload,
   }),
 };

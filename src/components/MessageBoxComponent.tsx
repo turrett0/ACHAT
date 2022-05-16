@@ -9,7 +9,6 @@ import {
 import Message from "./Message/Message";
 import {useCallback, useEffect, useRef} from "react";
 import {Notification} from "./Message/Message.styled";
-import {throttle} from "../utils/throttle";
 import {getMoreMessagesRequest} from "../api/websocket/actions";
 import {paginationData} from "../api/websocket/state";
 import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
@@ -35,25 +34,34 @@ const MessageBoxComponent = () => {
     room,
   } as paginationData;
 
-  const requestMessages = useCallback(
-    throttle(() => {
-      if (messageBoxRef.current) {
-        if (document.documentElement.scrollTop < 100 && isPaginationAvailable) {
-          console.log("req");
-          // getMoreMessagesRequest(data);
-          // setIsLoadingMessages(true);
-        }
+  const requestMessages = useCallback(() => {
+    if (messageBoxRef.current) {
+      if (document.documentElement.scrollTop < 10 && isPaginationAvailable) {
+        console.log(data);
+        getMoreMessagesRequest(data);
+        setIsLoadingMessages(true);
       }
-    }, 1000),
-    [data, isPaginationAvailable]
-  );
+    }
+  }, [data]);
 
   useEffect(() => {
-    document.addEventListener("scroll", requestMessages);
+    if (messageBoxRef.current) {
+      document.documentElement.scrollTo(
+        0,
+        document.documentElement.scrollHeight
+      );
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (isPaginationAvailable) {
+      document.addEventListener("scroll", requestMessages);
+    }
     return () => {
       document.removeEventListener("scroll", requestMessages);
     };
-  }, [requestMessages]);
+  }, [requestMessages, isPaginationAvailable]);
+
   return (
     <MessageBox ref={messageBoxRef}>
       {isMessagesLoading && <LoadingSpinner />}

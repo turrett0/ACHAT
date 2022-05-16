@@ -3,7 +3,6 @@ import useActions from "../../hooks/useActions";
 import {AiOutlineMenu as MenuButton} from "react-icons/ai";
 import {IoMdExit} from "react-icons/io";
 import {useLocation, useNavigate} from "react-router-dom";
-import {messageSocket} from "../../api/websocket";
 import {
   selectAllUsers,
   selectCurrentRoom,
@@ -15,26 +14,27 @@ import {
   HeaderMenuButton,
   LeaveButton,
 } from "./Header.styled";
-import {socketActions} from "../../api/websocket/state";
+import {disconnectRequest} from "../../api/websocket/actions";
 
 const Header = () => {
   const {pathname} = useLocation();
   const navigate = useNavigate();
-  const {clearMessages, setCurrentRoom, setAuth, setPaginationAvailability} =
-    useActions();
+  const {clearMessages, setCurrentRoom, setAuth} = useActions();
 
   const {controlMenu} = useActions();
   const currentRoom = useSelector(selectCurrentRoom);
   const isMenuOpen = useSelector(selectIsMenuOpen);
-  const onlineUserCount = useSelector(selectAllUsers).length;
+  const onlineUsers = useSelector(selectAllUsers);
 
   const onDisconnectHandler = () => {
-    // messageSocket.disconnect();
-    messageSocket.emit(socketActions.DISCONNECT_SESSION);
+    disconnectRequest({
+      room: currentRoom?.roomID,
+      users: onlineUsers,
+      query: "userLeave",
+    });
     clearMessages();
     setCurrentRoom(null);
     setAuth(false);
-    setPaginationAvailability(true);
     navigate("/login");
   };
 
@@ -49,7 +49,9 @@ const Header = () => {
       {currentRoom && pathname !== "/login" && (
         <HeaderInner>
           <span>{currentRoom.roomName}</span>
-          <span style={{opacity: "0.8"}}>{onlineUserCount} пользователей</span>
+          <span style={{opacity: "0.8"}}>
+            {onlineUsers.length} пользователей
+          </span>
         </HeaderInner>
       )}
       <HeaderMenuButton onClick={() => controlMenu(!isMenuOpen)}>

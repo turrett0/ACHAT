@@ -28,13 +28,9 @@ export const LoginForm = styled.form.attrs(
     border-right: none;
     font-size: 16px;
     color: ${({theme}) => theme.reversedTextColor};
-    transition: 0.05s ease-in-out;
 
     &::placeholder {
       color: ${({theme}) => theme.reversedTextColor};
-    }
-    &:focus {
-      border: 2px solid ${({theme}) => theme.accentColor};
     }
   }
 
