@@ -15,6 +15,7 @@ import Settings from "./components/Settings/Settings";
 import {Helmet} from "react-helmet";
 import useActions from "./hooks/useActions";
 import {getCurrentSystemAppear} from "./theme";
+import Layout from "./components/Layout/Layout";
 
 const App: React.FC = () => {
   const theme = useSelector(selectThemeColors);
@@ -52,27 +53,21 @@ const App: React.FC = () => {
   }, [colorSchemeChangeHandler]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <Helmet>
-        <meta name="theme-color" content={theme.accentColor} />
-      </Helmet>
-      <div className="App">
-        <Header />
-        <Settings />
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
           <Route
-            path="/"
+            index
             element={
               <RequireAuth>
                 <ChatPage />
               </RequireAuth>
             }
           />
-        </Routes>
-      </div>
-    </ThemeProvider>
+          <Route path="login" element={<LoginPage />} />
+        </Route>
+      </Routes>
+    </>
   );
 };
 

@@ -3,6 +3,14 @@ import {appStore} from "./appReducer/state";
 import {messagesStore} from "./messagesReducer/state";
 import {themeStore} from "./themeReducer/state";
 
+export const selectIsRandomSessionReady = (
+  state: IRootState
+): messagesStore["isRandomSessionReady"] =>
+  state.messagesReducer.isRandomSessionReady;
+export const selectIsEmitScroll = (
+  state: IRootState
+): appStore["isEmitScroll"] => state.appReducer.isEmitScroll;
+
 export const selectConnectionStatus = (
   state: IRootState
 ): appStore["connectionStatus"] => state.appReducer.connectionStatus;

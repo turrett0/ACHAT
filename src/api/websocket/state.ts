@@ -9,6 +9,7 @@ export enum socketEvents {
   NEW_USER_CONNECTION = "newUserConnected",
   USER_DISCONNECT = "disconnectUser",
   LOAD_MORE_MESSAGES = "loadMoreMessages",
+  SET_NEW_RANDOM_SESSION = "setNewRandomSession",
 }
 
 export enum socketActions {

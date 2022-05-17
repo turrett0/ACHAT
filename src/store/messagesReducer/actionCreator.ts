@@ -55,7 +55,7 @@ export interface setIsLoadingMessagesInterface {
 export interface setRandomSessionInterface {
   type: messagesActionTypes.SET_RANDOM_SESSION;
   payload: {
-    users: userInterface[];
+    isRandomSessionReady: boolean;
   };
 }
 

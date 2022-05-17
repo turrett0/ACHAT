@@ -19,8 +19,8 @@ const {
   loadMoreMessages,
   setRandomSession,
 } = messagesActionsObject;
-const {setConnectionStatus} = appActionsObject;
-export const messageSocket = io("ws://localhost:6969");
+const {setConnectionStatus, setIsEmitScroll} = appActionsObject;
+export const messageSocket = io("ws://192.168.3.7:6969");
 
 messageSocket.on(socketEvents.CONNECTED, () => {
   store.dispatch(setConnectionStatus(connectionStatusTypes.CONNECTED));
@@ -36,6 +36,7 @@ messageSocket.on(socketEvents.CONNECTED, () => {
   //On reconnect re-registration
   if (isAuth) {
     registrationRequest(regData, true);
+    //Отправлять данные о текущей пагинации на сервер
   }
 });
 
@@ -53,7 +54,6 @@ messageSocket.on(socketEvents.RECIEVE_MESSAGE, (message: messageInterface) => {
 });
 
 messageSocket.on(socketEvents.REGISTRATION, (regData: userRegistrationData) => {
-  console.log(regData);
   store.dispatch(userRegistration(regData));
 });
 
@@ -62,13 +62,16 @@ messageSocket.on(socketEvents.CONNECT_USER, (user: userInterface) => {
 });
 
 messageSocket.on(socketEvents.LOAD_MORE_MESSAGES, (data: any) => {
+  store.dispatch(setIsEmitScroll(false));
   store.dispatch(loadMoreMessages(data));
 });
 
-messageSocket.on("setRandomChatSession", (data) => {
-  console.log("data random:", data);
-  store.dispatch(setRandomSession(data));
-});
+messageSocket.on(
+  socketEvents.SET_NEW_RANDOM_SESSION,
+  (data: {isRandomSessionReady: boolean}) => {
+    store.dispatch(setRandomSession(data));
+  }
+);
 
 messageSocket.on(
   socketEvents.USER_DISCONNECT,

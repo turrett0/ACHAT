@@ -6,9 +6,8 @@ export const CustomHeader = styled.header`
   color: ${({theme}) => theme.textColor};
   display: flex;
   align-items: center;
-  position: sticky;
   justify-content: space-between;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1rem;
   z-index: 10;
   top: 0;
 `;
@@ -18,7 +17,6 @@ export const HeaderMenuButton = styled(IconButton)`
 `;
 
 export const HeaderInner = styled.div`
-  padding: 0 50px;
   display: flex;
   align-items: center;
   flex-direction: column;

@@ -18,7 +18,7 @@ export const MessageBody = styled.div.attrs(
   align-self: ${(props) =>
     props.author === "mine" ? "flex-end" : "flex-start"};
   right: ${(props) => (props.author === "mine" ? 0 : "initial")};
-  margin: 25px 15px 0 15px;
+  margin: 15px;
   border-radius: 0.5rem;
   padding: ${(props) => (props.type === "fileMessage" ? "0" : "5px")};
   color: white;

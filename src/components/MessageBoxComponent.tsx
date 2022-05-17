@@ -2,6 +2,7 @@ import {useSelector} from "react-redux";
 import styled from "styled-components";
 import {
   selectCurrentRoom,
+  selectIsEmitScroll,
   selectIsMessagesLoading,
   selectIsPaginationAvailable,
   selectNewMessages,
@@ -13,15 +14,21 @@ import {getMoreMessagesRequest} from "../api/websocket/actions";
 import {paginationData} from "../api/websocket/state";
 import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
 import useActions from "../hooks/useActions";
+import {debounce} from "../utils/debounce";
 
 const MessageBox = styled.div`
-  position: relative;
+  flex: 1;
+  flex-direction: column;
+  overflow: auto;
+`;
+
+const MessageBoxInner = styled.div`
   display: flex;
   flex-direction: column;
-  padding-bottom: 80px;
 `;
 
 const MessageBoxComponent = () => {
+  const isEmitScroll = useSelector(selectIsEmitScroll);
   const isPaginationAvailable = useSelector(selectIsPaginationAvailable);
   const isMessagesLoading = useSelector(selectIsMessagesLoading);
   const {setIsLoadingMessages} = useActions();
@@ -34,46 +41,49 @@ const MessageBoxComponent = () => {
     room,
   } as paginationData;
 
-  const requestMessages = useCallback(() => {
-    if (messageBoxRef.current) {
-      if (document.documentElement.scrollTop < 10 && isPaginationAvailable) {
-        console.log(data);
-        getMoreMessagesRequest(data);
-        setIsLoadingMessages(true);
+  const requestMessages = useCallback(
+    debounce(() => {
+      if (messageBoxRef.current) {
+        if (messageBoxRef.current.scrollTop < 500 && isPaginationAvailable) {
+          getMoreMessagesRequest(data);
+          setIsLoadingMessages(true);
+        }
       }
-    }
-  }, [data]);
+    }, 1000),
+    [data, isPaginationAvailable]
+  );
 
   useEffect(() => {
     if (messageBoxRef.current) {
-      document.documentElement.scrollTo(
-        0,
-        document.documentElement.scrollHeight
-      );
-    }
-  }, [messages]);
-
-  useEffect(() => {
-    if (isPaginationAvailable) {
-      document.addEventListener("scroll", requestMessages);
+      messageBoxRef.current.addEventListener("wheel", requestMessages);
     }
     return () => {
-      document.removeEventListener("scroll", requestMessages);
+      if (messageBoxRef.current) {
+        messageBoxRef.current.removeEventListener("wheel", requestMessages);
+      }
     };
-  }, [requestMessages, isPaginationAvailable]);
+  }, [requestMessages]);
+
+  useEffect(() => {
+    if (messageBoxRef.current && isEmitScroll) {
+      messageBoxRef.current.scrollTo(0, messageBoxRef.current.scrollHeight);
+    }
+  }, [messages.length]);
 
   return (
     <MessageBox ref={messageBoxRef}>
-      {isMessagesLoading && <LoadingSpinner />}
-      {messages.map((messageData) =>
-        messageData.userData.socketID === "system" ? (
-          <Notification key={messageData.messageID}>
-            {messageData.message.text}
-          </Notification>
-        ) : (
-          <Message userInfo={messageData} key={messageData.messageID} />
-        )
-      )}
+      <MessageBoxInner>
+        {isMessagesLoading && <LoadingSpinner />}
+        {messages.map((messageData) =>
+          messageData.userData.socketID === "system" ? (
+            <Notification key={messageData.messageID}>
+              {messageData.message.text}
+            </Notification>
+          ) : (
+            <Message userInfo={messageData} key={messageData.messageID} />
+          )
+        )}
+      </MessageBoxInner>
     </MessageBox>
   );
 };

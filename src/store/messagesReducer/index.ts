@@ -8,6 +8,7 @@ const initialState: messagesStore = {
   users: [],
   isPaginationAvailable: false,
   isLoadingMessages: false,
+  isRandomSessionReady: false,
 };
 
 export const messagesReducer = produce(
@@ -54,7 +55,7 @@ export const messagesReducer = produce(
         draft.isLoadingMessages = action.payload;
         break;
       case messagesActionTypes.SET_RANDOM_SESSION:
-        draft.users = action.payload.users;
+        draft.isRandomSessionReady = action.payload.isRandomSessionReady;
         break;
       default:
         break;

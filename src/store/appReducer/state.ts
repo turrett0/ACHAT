@@ -8,6 +8,7 @@ export interface appStore {
   userName: string | null;
   userID: string;
   isAuth: boolean;
+  isEmitScroll: boolean;
 }
 
 export enum connectionStatusTypes {
@@ -24,4 +25,5 @@ export enum appActionTypes {
   SET_USER_NAME = "SET_USER_NAME",
   SET_AUTH = "SET_AUTH",
   SET_CONNECTION_STATUS = "SET_CONNECTION_STATUS ",
+  SET_IS_EMIT_SCROLL = "SET_IS_EMIT_SCROLL",
 }

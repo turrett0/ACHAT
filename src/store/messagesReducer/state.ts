@@ -54,6 +54,7 @@ export type messagesStore = {
   messages: messageInterface[];
   isPaginationAvailable: boolean;
   isLoadingMessages: boolean;
+  isRandomSessionReady: boolean;
 };
 
 export type userRegistrationData = {

@@ -19,7 +19,8 @@ import {disconnectRequest} from "../../api/websocket/actions";
 const Header = () => {
   const {pathname} = useLocation();
   const navigate = useNavigate();
-  const {clearMessages, setCurrentRoom, setAuth} = useActions();
+  const {clearMessages, setCurrentRoom, setAuth, setIsEmitScroll} =
+    useActions();
 
   const {controlMenu} = useActions();
   const currentRoom = useSelector(selectCurrentRoom);
@@ -35,6 +36,7 @@ const Header = () => {
     clearMessages();
     setCurrentRoom(null);
     setAuth(false);
+    setIsEmitScroll(true);
     navigate("/login");
   };
 
@@ -49,9 +51,9 @@ const Header = () => {
       {currentRoom && pathname !== "/login" && (
         <HeaderInner>
           <span>{currentRoom.roomName}</span>
-          <span style={{opacity: "0.8"}}>
-            {onlineUsers.length} пользователей
-          </span>
+          {onlineUsers.length !== 0 && (
+            <span>{onlineUsers.length} пользователей</span>
+          )}
         </HeaderInner>
       )}
       <HeaderMenuButton onClick={() => controlMenu(!isMenuOpen)}>

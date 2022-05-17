@@ -6,6 +6,7 @@ import {
   selectAllUsers,
   selectConnectionStatus,
   selectCurrentRoom,
+  selectIsRandomSessionReady,
 } from "../../store/selectors";
 import {connectionStatusTypes} from "../../store/appReducer/state";
 import {
@@ -25,7 +26,8 @@ import {IconButton} from "../IconButton";
 import useActions from "../../hooks/useActions";
 
 const MessageBar = () => {
-  const {clearMessages} = useActions();
+  const isRandomSessionReady = useSelector(selectIsRandomSessionReady);
+  const {clearMessages, setIsEmitScroll} = useActions();
   const onlineUsers = useSelector(selectAllUsers);
   const currentRoom = useSelector(selectCurrentRoom);
   const isRandomRoom = currentRoom?.roomID === "random";
@@ -53,6 +55,7 @@ const MessageBar = () => {
       }
       setFile(null);
       inputRef.current.value = "";
+      setIsEmitScroll(true);
     }
   };
 
@@ -63,7 +66,6 @@ const MessageBar = () => {
   };
 
   const onChangeUserHandler = () => {
-    console.log(onlineUsers);
     if (isRandomRoom) {
       disconnectRequest({
         room: currentRoom.roomID,
@@ -78,9 +80,14 @@ const MessageBar = () => {
     <MessageWrapper isConnected={isConnected}>
       {file && <ImagePanel images={file} />}
       <MessageBarElement>
-        <IconButton onClick={onChangeUserHandler}>
-          <RetryButton />
-        </IconButton>
+        {currentRoom?.roomID === "random" && (
+          <IconButton
+            onClick={onChangeUserHandler}
+            disabled={!isRandomSessionReady}
+          >
+            <RetryButton />
+          </IconButton>
+        )}
         <label>
           <input
             type="file"
@@ -96,7 +103,6 @@ const MessageBar = () => {
             width: "100vw",
             display: "flex",
             alignItems: "center",
-            height: "100%",
           }}
         >
           <MessageInput placeholder="Напишите что нибудь..." ref={inputRef} />

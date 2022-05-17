@@ -15,4 +15,8 @@ export const IconButton = styled.button`
     height: 100%;
     width: 100%;
   }
+
+  &:disabled {
+    opacity: 0.5;
+  }
 `;

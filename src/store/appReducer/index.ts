@@ -14,6 +14,7 @@ const initialState: appStore = {
   userName: getLocalStorageUserName() || "",
   userID: getLocalStorageUserID(),
   isAuth: false,
+  isEmitScroll: true,
 };
 
 export const appReducer = produce((draft: Draft<any>, action: appActions) => {
@@ -34,5 +35,7 @@ export const appReducer = produce((draft: Draft<any>, action: appActions) => {
     case appActionTypes.SET_CONNECTION_STATUS:
       draft.connectionStatus = action.payload;
       break;
+    case appActionTypes.SET_IS_EMIT_SCROLL:
+      draft.isEmitScroll = action.payload;
   }
 }, initialState);

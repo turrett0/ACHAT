@@ -29,38 +29,50 @@ export interface setConnectionStatusInterface {
   payload: connectionStatusTypes;
 }
 
+export interface setIsEmitScrollInterface {
+  type: appActionTypes.SET_IS_EMIT_SCROLL;
+  payload: appStore["isEmitScroll"];
+}
+
 export type appActions =
   | setCurrentRoomInterface
   | controlMenuInterface
   | setUserNameInterface
   | setAuthInterface
-  | setConnectionStatusInterface;
+  | setConnectionStatusInterface
+  | setIsEmitScrollInterface;
 
 export const appActionsObject = {
   controlMenu: (payload: boolean): controlMenuInterface => ({
     type: appActionTypes.CONTROL_MENU,
-    payload: payload,
+    payload,
   }),
   setCurrentRoom: (
     payload: setCurrentRoomInterface["payload"]
   ): setCurrentRoomInterface => ({
     type: appActionTypes.SET_CURRENT_ROOM,
-    payload: payload,
+    payload,
   }),
   setUserName: (
     payload: setUserNameInterface["payload"]
   ): setUserNameInterface => ({
     type: appActionTypes.SET_USER_NAME,
-    payload: payload,
+    payload,
   }),
   setAuth: (payload: boolean): setAuthInterface => ({
     type: appActionTypes.SET_AUTH,
-    payload: payload,
+    payload,
   }),
   setConnectionStatus: (
     payload: connectionStatusTypes
   ): setConnectionStatusInterface => ({
     type: appActionTypes.SET_CONNECTION_STATUS,
-    payload: payload,
+    payload,
+  }),
+  setIsEmitScroll: (
+    payload: setIsEmitScrollInterface["payload"]
+  ): setIsEmitScrollInterface => ({
+    type: appActionTypes.SET_IS_EMIT_SCROLL,
+    payload,
   }),
 };

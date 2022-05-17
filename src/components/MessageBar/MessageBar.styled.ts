@@ -6,16 +6,14 @@ export const MessageWrapper = styled.div.attrs(
 )`
   background-color: ${({theme, isConnected}) =>
     isConnected ? theme.accentColor : "lightgray"};
-  position: fixed;
-  bottom: 0;
 `;
 
 export const MessageBarElement = styled.div`
-  padding: 1rem;
+  padding: 1.5rem 1rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 3rem;
-  height: 3.5rem;
   width: 100vw;
 `;
 export const MessageInput = styled.input`

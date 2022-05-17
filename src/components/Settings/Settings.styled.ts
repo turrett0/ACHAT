@@ -5,7 +5,9 @@ export const SettingsBG = styled.div``;
 export const SettingsWrapper = styled.div`
   padding: 5rem 0 5rem 0;
 
-  background: ${({theme}) => theme.bgColor};
+  background: ${({theme}) => {
+    return theme.bgColor;
+  }};
   border-left: 2px solid ${({theme}) => theme.textColor};
   color: ${({theme}) => theme.reversedTextColor};
   height: 100vh;
