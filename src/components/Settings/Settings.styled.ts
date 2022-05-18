@@ -3,14 +3,14 @@ import styled from "styled-components";
 export const SettingsBG = styled.div``;
 
 export const SettingsWrapper = styled.div`
-  padding: 5rem 0 5rem 0;
+  padding: 1rem 0 7rem 0;
 
   background: ${({theme}) => {
     return theme.bgColor;
   }};
   border-left: 2px solid ${({theme}) => theme.textColor};
   color: ${({theme}) => theme.reversedTextColor};
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

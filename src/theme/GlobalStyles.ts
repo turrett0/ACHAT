@@ -10,26 +10,27 @@ const GlobalStyles = createGlobalStyle`
 }
 
 html, #root, body  {
-height: 100vh;
-  
+height: calc(100% - 1.09em);
+
 }
 
 
 body {
-  background:   ${({theme}) => theme.bgColor} 
+  background:   ${({theme}) => theme.bgColor} ;
+
+
 }
 `;
 
 export const GlobalContainer = styled.div`
-  flex: 1;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   max-height: 100%;
-  overflow: hidden;
 `;
 
 export const AppComponent = styled.div`
-  height: 94%;
+  height: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;

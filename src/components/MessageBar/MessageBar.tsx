@@ -17,7 +17,7 @@ import {AiOutlineArrowUp as SendButtonIcon} from "react-icons/ai";
 import {
   MessageWrapper,
   MessageInput,
-  MessageBarElement,
+  MessageBarInner,
   AttachIcon,
 } from "./MessageBar.styled";
 import {AiOutlineReload as RetryButton} from "react-icons/ai";
@@ -78,8 +78,8 @@ const MessageBar = () => {
 
   return (
     <MessageWrapper isConnected={isConnected}>
-      {file && <ImagePanel images={file} />}
-      <MessageBarElement>
+      {file && <ImagePanel images={file} removeImage={setFile} />}
+      <MessageBarInner>
         {currentRoom?.roomID === "random" && (
           <IconButton
             onClick={onChangeUserHandler}
@@ -105,12 +105,12 @@ const MessageBar = () => {
             alignItems: "center",
           }}
         >
-          <MessageInput placeholder="Напишите что нибудь..." ref={inputRef} />
+          <MessageInput placeholder="Сообщение..." ref={inputRef} />
           <IconButton type="submit">
             <SendButtonIcon />
           </IconButton>
         </form>
-      </MessageBarElement>
+      </MessageBarInner>
     </MessageWrapper>
   );
 };

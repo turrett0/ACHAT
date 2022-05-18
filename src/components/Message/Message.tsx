@@ -7,7 +7,7 @@ import {
 } from "../../store/messagesReducer/state";
 import {selectUserID} from "../../store/selectors";
 import base64Converter from "../../utils/Base64Convert";
-import Modal from "../Modal/Modal";
+import ImagePreviewModal from "../Modal/ImagePreviewModal";
 import {
   MessageBody,
   MessageText,
@@ -68,19 +68,17 @@ const Message: React.FC<Props> = ({userInfo}) => {
         )}
       </MessageBody>
       {imageFullScreen && (
-        <Modal bgColor={"rgba(0,0,0,.8)"} callback={setImageFullScreen}>
-          <div style={{alignSelf: "center", margin: "0 auto"}}>
-            <img
-              src={"data:image/jpeg;base64" + image}
-              alt={image.type}
-              style={{
-                maxWidth: "80vw",
-                maxHeight: "60vh",
-                objectFit: "contain",
-              }}
-            />
-          </div>
-        </Modal>
+        <ImagePreviewModal callback={setImageFullScreen}>
+          <img
+            src={"data:image/jpeg;base64" + image}
+            alt={image.type}
+            style={{
+              maxWidth: "80vw",
+              maxHeight: "60vh",
+              objectFit: "contain",
+            }}
+          />
+        </ImagePreviewModal>
       )}
     </>
   );

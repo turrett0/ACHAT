@@ -42,11 +42,9 @@ const Modal: React.FC<Props> = ({children, bgColor, callback}) => {
     }
   };
   useEffect(() => {
-    document.documentElement.style.overflow = "hidden";
     document.addEventListener("click", closeMenuHandler);
 
     return () => {
-      document.documentElement.style.overflow = "initial";
       document.removeEventListener("click", closeMenuHandler);
     };
   }, []);

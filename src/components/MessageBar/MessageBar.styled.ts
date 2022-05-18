@@ -8,8 +8,8 @@ export const MessageWrapper = styled.div.attrs(
     isConnected ? theme.accentColor : "lightgray"};
 `;
 
-export const MessageBarElement = styled.div`
-  padding: 1.5rem 1rem;
+export const MessageBarInner = styled.div`
+  padding: 2rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -18,7 +18,6 @@ export const MessageBarElement = styled.div`
 `;
 export const MessageInput = styled.input`
   width: 95%;
-  height: 90%;
   outline: none;
   padding: 5px 10px;
   border: none;

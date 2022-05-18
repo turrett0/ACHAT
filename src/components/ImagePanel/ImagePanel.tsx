@@ -1,28 +1,20 @@
 import React, {useState} from "react";
-import styled from "styled-components";
-
-const ImagePanelComponent = styled.div`
-  height: 6rem;
-  width: 100vw;
-  background: ${({theme}) => theme.accentColor};
-  border-bottom: 1px solid white;
-  padding: 5px 0;
-
-  & img {
-    width: 20%;
-    height: 100%;
-    margin: 0 10px;
-    border-radius: 10px;
-    object-fit: cover;
-  }
-`;
+import {AiOutlineClose as DeleteImageIcon} from "react-icons/ai";
+import ImagePreviewModal from "../Modal/ImagePreviewModal";
+import {
+  ImagePanelComponent,
+  ImageElement,
+  CancelButton,
+} from "./ImagePanel.styled";
 
 interface Props {
   images: File;
+  removeImage: (value: React.SetStateAction<File | null>) => void;
 }
 
-const ImagePanel: React.FC<Props> = ({images}) => {
+const ImagePanel: React.FC<Props> = ({images, removeImage}) => {
   const [images1, setImages1] = useState<any>();
+  const [fullScreenMode, setFullScreenMode] = useState<boolean>(false);
 
   const imgBlob = new Blob([images], {type: images.type});
   const reader = new FileReader();
@@ -31,9 +23,29 @@ const ImagePanel: React.FC<Props> = ({images}) => {
     setImages1(reader.result);
   };
   return (
-    <ImagePanelComponent>
-      <img src={images1} alt={images.type} />
-    </ImagePanelComponent>
+    <>
+      <ImagePanelComponent>
+        <ImageElement
+          style={{
+            position: "relative",
+          }}
+        >
+          <img
+            src={images1}
+            alt={images.type}
+            onClick={() => setFullScreenMode(true)}
+          />
+          <CancelButton onClick={() => removeImage(null)}>
+            <DeleteImageIcon />
+          </CancelButton>
+        </ImageElement>
+      </ImagePanelComponent>
+      {fullScreenMode && (
+        <ImagePreviewModal callback={setFullScreenMode}>
+          <img src={images1} alt={images.type} />
+        </ImagePreviewModal>
+      )}
+    </>
   );
 };
 
