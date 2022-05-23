@@ -6,7 +6,7 @@ import {
   getlocalStorageSystemColorScheme,
   getlocalStorageDarkMode,
   getlocalStorageTheme,
-} from "../../api/localStorage/localStorage";
+} from "../../api/localStorage/actions";
 
 const initialState: themeStore = {
   systemColorScheme: getlocalStorageSystemColorScheme

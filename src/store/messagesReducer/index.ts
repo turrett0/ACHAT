@@ -7,7 +7,7 @@ const initialState: messagesStore = {
   socketID: "",
   users: [],
   isPaginationAvailable: false,
-  isLoadingMessages: false,
+  isLoadingMessages: true,
   isRandomSessionReady: false,
 };
 
@@ -56,6 +56,11 @@ export const messagesReducer = produce(
         break;
       case messagesActionTypes.SET_RANDOM_SESSION:
         draft.isRandomSessionReady = action.payload.isRandomSessionReady;
+        draft.isLoadingMessages = false;
+        draft.messages = draft.messages.slice(
+          draft.messages.length - 1,
+          draft.messages.length
+        );
         break;
       default:
         break;

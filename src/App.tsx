@@ -1,24 +1,15 @@
 import React, {useCallback, useEffect} from "react";
-import {ThemeProvider} from "styled-components";
-import GlobalStyles from "./theme/GlobalStyles";
-import Header from "./components/Header/Header";
 import {Routes, Route} from "react-router-dom";
 import LoginPage from "./Pages/LoginPage/LoginPage";
 import ChatPage from "./Pages/ChatPage";
 import RequireAuth from "./hoc/RequireAuth";
 import {useSelector} from "react-redux";
-import {
-  selectIsToggleSystemColorScheme,
-  selectThemeColors,
-} from "./store/selectors";
-import Settings from "./components/Settings/Settings";
-import {Helmet} from "react-helmet";
+import {selectIsToggleSystemColorScheme} from "./store/selectors";
 import useActions from "./hooks/useActions";
 import {getCurrentSystemAppear} from "./theme";
 import Layout from "./components/Layout/Layout";
 
 const App: React.FC = () => {
-  const theme = useSelector(selectThemeColors);
   const isSystemColorScheme = useSelector(selectIsToggleSystemColorScheme);
   const {setDarkMode} = useActions();
 
@@ -44,11 +35,16 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const matchMediaExample = window.matchMedia("(prefers-color-scheme: dark)");
-    matchMediaExample.addEventListener("change", colorSchemeChangeHandler);
+    const colorSchemeMatchMedia = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    );
+    colorSchemeMatchMedia.addEventListener("change", colorSchemeChangeHandler);
 
     return () => {
-      matchMediaExample.removeEventListener("change", colorSchemeChangeHandler);
+      colorSchemeMatchMedia.removeEventListener(
+        "change",
+        colorSchemeChangeHandler
+      );
     };
   }, [colorSchemeChangeHandler]);
 

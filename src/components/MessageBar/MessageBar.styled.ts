@@ -35,3 +35,9 @@ export const AttachIcon = styled(IoIosAttach)`
   cursor: pointer;
   transition: 100ms;
 `;
+
+export const CustomForm = styled.form`
+  display: flex;
+  align-items: center;
+  width: 100%;
+`;

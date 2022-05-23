@@ -4,18 +4,17 @@ import {paginationData, socketActions, socketRegistrationData} from "./state";
 
 export function registrationRequest(
   userData: socketRegistrationData,
-  isReAuth: boolean = false
+  isReAuth: boolean = false,
+  lastMessageID: string = ""
 ) {
   const {username, room, userID} = userData;
-  messageSocket.emit(
-    socketActions.REGISTRATION,
-    {
-      username: username,
-      room: room?.roomID,
-      userID: userID,
-    },
-    isReAuth
-  );
+  messageSocket.emit(socketActions.REGISTRATION, {
+    username: username,
+    room: room?.roomID,
+    userID: userID,
+    isReAuth,
+    lastMessageID,
+  });
 }
 
 export function sendMessageRequest(

@@ -5,7 +5,7 @@ import {
   getLocalStorageUserID,
   getLocalStorageUserName,
   setLocalStorageUserName,
-} from "../../api/localStorage/localStorage";
+} from "../../api/localStorage/actions";
 
 const initialState: appStore = {
   room: null,

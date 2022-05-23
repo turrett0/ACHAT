@@ -19,6 +19,7 @@ import {
   MessageInput,
   MessageBarInner,
   AttachIcon,
+  CustomForm,
 } from "./MessageBar.styled";
 import {AiOutlineReload as RetryButton} from "react-icons/ai";
 
@@ -60,8 +61,13 @@ const MessageBar = () => {
   };
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
+    if (e.target.files && e.target.files[0]) {
+      if (+(e.target.files[0].size / 1000000).toFixed(2) < 3) {
+        setFile(e.target.files[0]);
+      } else {
+        alert("Максимальный размер файла - 3мб");
+      }
+      e.target.value = "";
     }
   };
 
@@ -90,6 +96,7 @@ const MessageBar = () => {
         )}
         <label>
           <input
+            disabled={!isRandomSessionReady && currentRoom?.roomID === "random"}
             type="file"
             accept="image/*"
             onChange={onFileChange}
@@ -97,19 +104,16 @@ const MessageBar = () => {
           />
           <AttachIcon />
         </label>
-        <form
-          onSubmit={onSubmitHandler}
-          style={{
-            width: "100vw",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <MessageInput placeholder="Сообщение..." ref={inputRef} />
+        <CustomForm onSubmit={onSubmitHandler}>
+          <MessageInput
+            placeholder="Сообщение..."
+            ref={inputRef}
+            disabled={!isRandomSessionReady && currentRoom?.roomID === "random"}
+          />
           <IconButton type="submit">
             <SendButtonIcon />
           </IconButton>
-        </form>
+        </CustomForm>
       </MessageBarInner>
     </MessageWrapper>
   );

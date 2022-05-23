@@ -26,6 +26,7 @@ messageSocket.on(socketEvents.CONNECTED, () => {
   store.dispatch(setConnectionStatus(connectionStatusTypes.CONNECTED));
 
   const appStore = store.getState().appReducer;
+  const lastMessageID = store.getState().messagesReducer.messages[0]?.messageID;
   const isAuth = appStore.isAuth;
   const regData = {
     userID: appStore.userID,
@@ -35,7 +36,7 @@ messageSocket.on(socketEvents.CONNECTED, () => {
 
   //On reconnect re-registration
   if (isAuth) {
-    registrationRequest(regData, true);
+    registrationRequest(regData, true, lastMessageID);
     //Отправлять данные о текущей пагинации на сервер
   }
 });
@@ -55,6 +56,7 @@ messageSocket.on(socketEvents.RECIEVE_MESSAGE, (message: messageInterface) => {
 
 messageSocket.on(socketEvents.REGISTRATION, (regData: userRegistrationData) => {
   store.dispatch(userRegistration(regData));
+  console.log(regData);
 });
 
 messageSocket.on(socketEvents.CONNECT_USER, (user: userInterface) => {

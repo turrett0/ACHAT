@@ -3,8 +3,7 @@ import styled from "styled-components";
 export const SettingsBG = styled.div``;
 
 export const SettingsWrapper = styled.div`
-  padding: 1rem 0 7rem 0;
-
+  padding: 0.5rem 0;
   background: ${({theme}) => {
     return theme.bgColor;
   }};

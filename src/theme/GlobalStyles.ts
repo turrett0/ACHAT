@@ -10,15 +10,17 @@ const GlobalStyles = createGlobalStyle`
 }
 
 html, #root, body  {
-height: calc(100% - 1.09em);
+height: 100%;
+}
 
+#root {
+  display: flex;
+  flex-direction: column;
 }
 
 
 body {
-  background:   ${({theme}) => theme.bgColor} ;
-
-
+  background: ${({theme}) => theme.bgColor} ;
 }
 `;
 
@@ -30,7 +32,7 @@ export const GlobalContainer = styled.div`
 `;
 
 export const AppComponent = styled.div`
-  height: 100%;
+  flex: 1;
   overflow: hidden;
   display: flex;
   flex-direction: column;

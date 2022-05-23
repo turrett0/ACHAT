@@ -1,7 +1,7 @@
 import {getDarkModeVersion, getLightModeVersion} from "../../theme/index";
 import {themeColorsInterface} from "../../store/themeReducer/state";
 import {v4 as uuid} from "uuid";
-import {getItemFromLocalStorage, setItemToLocalStorage} from "../../storage";
+import {getItemFromLocalStorage, setItemToLocalStorage} from ".";
 
 export enum localStorageVars {
   THEME = "theme",

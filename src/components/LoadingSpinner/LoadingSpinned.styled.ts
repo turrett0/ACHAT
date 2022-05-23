@@ -1,9 +1,12 @@
 import styled from "styled-components";
 
 export const LoadingSpinnerBody = styled.div`
+  position: fixed;
   margin: 5px auto;
   width: 25px;
   height: 25px;
+  left: 0;
+  right: 0;
 
   & svg {
     width: 100%;

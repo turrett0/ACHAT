@@ -14,7 +14,6 @@ import {getMoreMessagesRequest} from "../api/websocket/actions";
 import {paginationData} from "../api/websocket/state";
 import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
 import useActions from "../hooks/useActions";
-import {debounce} from "../utils/debounce";
 
 const MessageBox = styled.div`
   flex: 1;
@@ -41,25 +40,26 @@ const MessageBoxComponent = () => {
     room,
   } as paginationData;
 
-  const requestMessages = useCallback(
-    debounce(() => {
-      if (messageBoxRef.current) {
-        if (messageBoxRef.current.scrollTop < 500 && isPaginationAvailable) {
-          getMoreMessagesRequest(data);
-          setIsLoadingMessages(true);
-        }
+  const requestMessages = useCallback(() => {
+    if (messageBoxRef.current) {
+      if (
+        messageBoxRef.current.scrollTop < 500 &&
+        isPaginationAvailable &&
+        !isMessagesLoading
+      ) {
+        getMoreMessagesRequest(data);
+        setIsLoadingMessages(true);
       }
-    }, 1000),
-    [data, isPaginationAvailable]
-  );
+    }
+  }, [data, isPaginationAvailable]);
 
   useEffect(() => {
     if (messageBoxRef.current) {
-      messageBoxRef.current.addEventListener("wheel", requestMessages);
+      messageBoxRef.current.addEventListener("scroll", requestMessages);
     }
     return () => {
       if (messageBoxRef.current) {
-        messageBoxRef.current.removeEventListener("wheel", requestMessages);
+        messageBoxRef.current.removeEventListener("scroll", requestMessages);
       }
     };
   }, [requestMessages]);

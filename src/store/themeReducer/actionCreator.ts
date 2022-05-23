@@ -1,10 +1,10 @@
 import {themeActionTypes, themeColorsInterface, themeStore} from "./state";
 import store from "../index";
-import {setItemToLocalStorage} from "../../storage";
+import {setItemToLocalStorage} from "../../api/localStorage";
 import {
   localStorageVars,
   setThemeToLocalStorage,
-} from "../../api/localStorage/localStorage";
+} from "../../api/localStorage/actions";
 import {
   getCurrentSystemAppear,
   getLightModeVersion,

@@ -3,6 +3,7 @@ import {createPortal} from "react-dom";
 import styled from "styled-components";
 
 const ModalWrapper = styled.div.attrs((props: {bgColor: string}) => props)`
+  z-index: 10000;
   position: fixed;
   left: 0;
   right: 0;
