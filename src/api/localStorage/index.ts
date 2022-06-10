@@ -1,9 +1,17 @@
 export function setItemToLocalStorage(name: string, value: any) {
-  if (typeof value !== "string") {
-    value = JSON.stringify(value);
+  try {
+    if (typeof value !== "string") {
+      value = JSON.stringify(value);
+    }
+    return localStorage.setItem(name, value);
+  } catch (error) {
+    alert("Нет доступа к Local Storage");
   }
-  return localStorage.setItem(name, value);
 }
 export function getItemFromLocalStorage(name: string) {
-  return localStorage.getItem(name);
+  try {
+    return localStorage.getItem(name);
+  } catch (e) {
+    alert("Нет доступа к Local Storage");
+  }
 }

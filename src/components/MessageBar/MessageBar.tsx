@@ -28,7 +28,7 @@ import useActions from "../../hooks/useActions";
 
 const MessageBar = () => {
   const isRandomSessionReady = useSelector(selectIsRandomSessionReady);
-  const {clearMessages, setIsEmitScroll} = useActions();
+  const {clearMessages, setIsEmitScroll, setNewMessage} = useActions();
   const onlineUsers = useSelector(selectAllUsers);
   const currentRoom = useSelector(selectCurrentRoom);
   const isRandomRoom = currentRoom?.roomID === "random";
@@ -55,8 +55,8 @@ const MessageBar = () => {
         });
       }
       setFile(null);
+      inputRef.current.value.trim().length !== 0 && setIsEmitScroll(true);
       inputRef.current.value = "";
-      setIsEmitScroll(true);
     }
   };
 
@@ -66,6 +66,7 @@ const MessageBar = () => {
         setFile(e.target.files[0]);
       } else {
         alert("Максимальный размер файла - 3мб");
+        console.log(file);
       }
       e.target.value = "";
     }

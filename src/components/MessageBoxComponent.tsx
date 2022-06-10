@@ -80,7 +80,7 @@ const MessageBoxComponent = () => {
               {messageData.message.text}
             </Notification>
           ) : (
-            <Message userInfo={messageData} key={messageData.messageID} />
+            <Message messageData={messageData} key={messageData.messageID} />
           )
         )}
       </MessageBoxInner>

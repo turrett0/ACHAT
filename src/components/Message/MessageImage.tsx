@@ -1,4 +1,6 @@
-import React, {memo} from "react";
+import React, {memo, useEffect, useState} from "react";
+import {CgSpinnerTwoAlt as LoadingIcon} from "react-icons/cg";
+import {LoadingPlaceholder} from "./Message.styled";
 
 interface Props {
   image: any;
@@ -6,12 +8,27 @@ interface Props {
 }
 
 const MessageImage: React.FC<Props> = ({image, onImageClickHandler}) => {
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [imgSrc, setImgSrc] = useState<string | null>("");
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = image;
+    img.onload = () => {
+      setImgSrc(image);
+    };
+  }, [image]);
+
   return (
-    <img
-      src={"data:image/jpeg;base64" + image}
-      alt={image.type}
-      onClick={onImageClickHandler}
-    />
+    <>
+      {imgSrc ? (
+        <img src={image} alt={image.type} onClick={onImageClickHandler} />
+      ) : (
+        <LoadingPlaceholder>
+          <LoadingIcon />
+        </LoadingPlaceholder>
+      )}
+    </>
   );
 };
 

@@ -55,7 +55,7 @@ const Settings = () => {
               <p>Цвет Сообщений</p>
 
               <Message
-                userInfo={{
+                messageData={{
                   userData: {
                     socketID: "test",
                     userID: userID,
@@ -78,7 +78,7 @@ const Settings = () => {
                 }
               />
               <Message
-                userInfo={{
+                messageData={{
                   userData: {
                     socketID: "",
                     userID: "0",

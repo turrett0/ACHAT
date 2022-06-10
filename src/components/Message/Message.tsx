@@ -6,7 +6,6 @@ import {
   messageTypes,
 } from "../../store/messagesReducer/state";
 import {selectUserID} from "../../store/selectors";
-import base64Converter from "../../utils/Base64Convert";
 import ImagePreviewModal from "../Modal/ImagePreviewModal";
 import {
   MessageBody,
@@ -18,11 +17,11 @@ import {
 import MessageImage from "./MessageImage";
 
 interface Props {
-  userInfo: messageInterface;
+  messageData: messageInterface;
 }
 
-const Message: React.FC<Props> = ({userInfo}) => {
-  const {userData, message, time} = userInfo;
+const Message: React.FC<Props> = ({messageData}) => {
+  const {userData, message, time} = messageData;
   const currentUserID = useSelector(selectUserID);
   const [image, setImage] = useState<any>(null);
   const [imageFullScreen, setImageFullScreen] = useState<boolean>(false);
@@ -30,7 +29,10 @@ const Message: React.FC<Props> = ({userInfo}) => {
     userData.userID === currentUserID ? "mine" : "stranger";
 
   useEffect(() => {
-    base64Converter(message, setImage);
+    if (messageData.message.type === messageTypes.FILE_MESSAGE) {
+      setImage(messageData.message.file);
+      console.log(messageData);
+    }
   }, [message]);
 
   const onImageClickHandler = useCallback(() => {
@@ -69,15 +71,7 @@ const Message: React.FC<Props> = ({userInfo}) => {
       </MessageBody>
       {imageFullScreen && (
         <ImagePreviewModal callback={setImageFullScreen}>
-          <img
-            src={"data:image/jpeg;base64" + image}
-            alt={image.type}
-            style={{
-              maxWidth: "80vw",
-              maxHeight: "60vh",
-              objectFit: "contain",
-            }}
-          />
+          <img src={image} alt={image.type} />
         </ImagePreviewModal>
       )}
     </>

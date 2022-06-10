@@ -26,14 +26,42 @@ export const MessageBody = styled.div.attrs(
 
   & img {
     width: 100%;
-    height: 100%;
-    max-height: 200px;
+    max-width: 350px;
+    max-height: 300px;
     object-fit: cover;
   }
 
   @media (max-width: 600px) {
     & {
       max-width: 65%;
+    }
+  }
+`;
+
+export const LoadingPlaceholder = styled.div`
+  width: 350px;
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    & svg {
+      animation: spinner infinite 1s linear;
+    }
+  }
+
+  @keyframes spinner {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
     }
   }
 `;

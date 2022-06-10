@@ -12,11 +12,15 @@ export enum localStorageVars {
 }
 
 export const getLocalStorageUserName = () => {
-  const localStorageUserName = getItemFromLocalStorage(
-    localStorageVars.USER_NAME
-  );
-  if (localStorageUserName) {
-    return localStorageUserName;
+  try {
+    const localStorageUserName = getItemFromLocalStorage(
+      localStorageVars.USER_NAME
+    );
+    if (localStorageUserName) {
+      return localStorageUserName;
+    }
+  } catch (error) {
+    return "";
   }
 };
 

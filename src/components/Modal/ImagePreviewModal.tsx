@@ -13,8 +13,9 @@ const ImageWrapper = styled.div`
   object-fit: contain;
 
   & img {
-    width: 100%;
-    height: 100%;
+    max-width: 80vw;
+    max-height: 60vh;
+    object-fit: contain;
   }
 `;
 
