@@ -15,7 +15,6 @@ export const MessageBody = styled.div.attrs(
 
   min-width: ${({type}) => (type === "textMessage" ? "13vh" : "")};
   max-width: ${({type}) => (type === "textMessage" ? "35vh" : "200px")};
-  max-height: ${({type}) => (type === "textMessage" ? "" : "300px")};
 
   display: flex;
   overflow: hidden;
@@ -34,6 +33,7 @@ export const MessageBody = styled.div.attrs(
   img {
     height: 100%;
     width: 100%;
+    overflow: hidden;
     object-fit: cover;
   }
 
