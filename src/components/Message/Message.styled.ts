@@ -85,6 +85,7 @@ export const MessageText = styled.span`
   font-size: 16px;
   width: 100%;
   padding: 10px;
+  margin-bottom: 1rem;
 `;
 
 export const MessageSpan = styled.span`
