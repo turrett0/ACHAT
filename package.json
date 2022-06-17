@@ -1,6 +1,7 @@
 {
   "name": "achat",
   "version": "1.0",
+  "homepage": "https://turrett0.github.io/ACHAT/",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
