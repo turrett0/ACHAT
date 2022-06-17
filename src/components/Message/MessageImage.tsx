@@ -8,7 +8,6 @@ interface Props {
 }
 
 const MessageImage: React.FC<Props> = ({image, onImageClickHandler}) => {
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [imgSrc, setImgSrc] = useState<string | null>("");
 
   useEffect(() => {

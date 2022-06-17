@@ -20,7 +20,7 @@ const {
   setRandomSession,
 } = messagesActionsObject;
 const {setConnectionStatus, setIsEmitScroll} = appActionsObject;
-export const messageSocket = io("ws://192.168.3.7:6969");
+export const messageSocket = io("https://turrett0-achat.herokuapp.com/");
 
 messageSocket.on(socketEvents.CONNECTED, () => {
   store.dispatch(setConnectionStatus(connectionStatusTypes.CONNECTED));
@@ -41,7 +41,6 @@ messageSocket.on(socketEvents.CONNECTED, () => {
 });
 
 messageSocket.on(socketEvents.CONNECT_ERROR, (e) => {
-  console.log(e);
   store.dispatch(setConnectionStatus(connectionStatusTypes.CONNECT_ERROR));
 });
 
@@ -51,12 +50,10 @@ messageSocket.on(socketEvents.CONNECT_USER, (userData: userInterface) => {
 
 messageSocket.on(socketEvents.RECIEVE_MESSAGE, (message: messageInterface) => {
   store.dispatch(setNewMessage(message));
-  console.log(message);
 });
 
 messageSocket.on(socketEvents.REGISTRATION, (regData: userRegistrationData) => {
   store.dispatch(userRegistration(regData));
-  console.log(regData);
 });
 
 messageSocket.on(socketEvents.CONNECT_USER, (user: userInterface) => {

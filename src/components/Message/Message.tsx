@@ -31,9 +31,8 @@ const Message: React.FC<Props> = ({messageData}) => {
   useEffect(() => {
     if (messageData.message.type === messageTypes.FILE_MESSAGE) {
       setImage(messageData.message.file);
-      console.log(messageData);
     }
-  }, [message]);
+  }, [messageData]);
 
   const onImageClickHandler = useCallback(() => {
     setImageFullScreen((prev) => !prev);
@@ -70,9 +69,11 @@ const Message: React.FC<Props> = ({messageData}) => {
         )}
       </MessageBody>
       {imageFullScreen && (
-        <ImagePreviewModal callback={setImageFullScreen}>
-          <img src={image} alt={image.type} />
-        </ImagePreviewModal>
+        <ImagePreviewModal
+          callback={setImageFullScreen}
+          isDownloadable={true}
+          imgSrc={image}
+        />
       )}
     </>
   );

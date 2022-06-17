@@ -28,7 +28,7 @@ import useActions from "../../hooks/useActions";
 
 const MessageBar = () => {
   const isRandomSessionReady = useSelector(selectIsRandomSessionReady);
-  const {clearMessages, setIsEmitScroll, setNewMessage} = useActions();
+  const {clearMessages, setIsEmitScroll} = useActions();
   const onlineUsers = useSelector(selectAllUsers);
   const currentRoom = useSelector(selectCurrentRoom);
   const isRandomRoom = currentRoom?.roomID === "random";
@@ -62,10 +62,10 @@ const MessageBar = () => {
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      if (+(e.target.files[0].size / 1000000).toFixed(2) < 3) {
+      if (+(e.target.files[0].size / 1000000).toFixed(2) < 7) {
         setFile(e.target.files[0]);
       } else {
-        alert("Максимальный размер файла - 3мб");
+        alert("Максимальный размер файла - 7мб");
         console.log(file);
       }
       e.target.value = "";
@@ -85,7 +85,7 @@ const MessageBar = () => {
 
   return (
     <MessageWrapper isConnected={isConnected}>
-      {file && <ImagePanel images={file} removeImage={setFile} />}
+      {file && <ImagePanel file={file} removeImage={setFile} />}
       <MessageBarInner>
         {currentRoom?.roomID === "random" && (
           <IconButton

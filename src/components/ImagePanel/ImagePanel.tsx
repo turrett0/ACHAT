@@ -8,15 +8,15 @@ import {
 } from "./ImagePanel.styled";
 
 interface Props {
-  images: File;
+  file: File;
   removeImage: (value: React.SetStateAction<File | null>) => void;
 }
 
-const ImagePanel: React.FC<Props> = ({images, removeImage}) => {
+const ImagePanel: React.FC<Props> = ({file, removeImage}) => {
   const [images1, setImages1] = useState<any>();
   const [fullScreenMode, setFullScreenMode] = useState<boolean>(false);
 
-  const imgBlob = new Blob([images], {type: images.type});
+  const imgBlob = new Blob([file], {type: file.type});
   const reader = new FileReader();
   reader.readAsDataURL(imgBlob);
   reader.onloadend = () => {
@@ -32,7 +32,7 @@ const ImagePanel: React.FC<Props> = ({images, removeImage}) => {
         >
           <img
             src={images1}
-            alt={images.type}
+            alt={file.type}
             onClick={() => setFullScreenMode(true)}
           />
           <CancelButton onClick={() => removeImage(null)}>
@@ -41,9 +41,11 @@ const ImagePanel: React.FC<Props> = ({images, removeImage}) => {
         </ImageElement>
       </ImagePanelComponent>
       {fullScreenMode && (
-        <ImagePreviewModal callback={setFullScreenMode}>
-          <img src={images1} alt={images.type} />
-        </ImagePreviewModal>
+        <ImagePreviewModal
+          callback={setFullScreenMode}
+          isDownloadable={false}
+          imgSrc={images1}
+        />
       )}
     </>
   );

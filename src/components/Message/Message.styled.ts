@@ -8,8 +8,15 @@ export const MessageBody = styled.div.attrs(
     props.author === "mine"
       ? props.theme.mineMessageColor
       : props.theme.strangerMessageColor};
-  min-width: 13vw;
-  max-width: 35vw;
+  border: ${(props) =>
+    props.author === "mine"
+      ? `1px solid ${props.theme.mineMessageColor}`
+      : `1px solid ${props.theme.strangerMessageColor}`};
+
+  min-width: ${({type}) => (type === "textMessage" ? "13vh" : "")};
+  max-width: ${({type}) => (type === "textMessage" ? "35vh" : "200px")};
+  max-height: ${({type}) => (type === "textMessage" ? "" : "300px")};
+
   display: flex;
   overflow: hidden;
   flex-direction: column;
@@ -24,10 +31,9 @@ export const MessageBody = styled.div.attrs(
   color: white;
   word-wrap: break-word;
 
-  & img {
+  img {
+    height: 100%;
     width: 100%;
-    max-width: 350px;
-    max-height: 300px;
     object-fit: cover;
   }
 
