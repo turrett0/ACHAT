@@ -51,9 +51,6 @@ const Header = () => {
       {currentRoom && pathname !== "/login" && (
         <HeaderInner>
           <span>{currentRoom.roomName}</span>
-          {onlineUsers.length !== 0 && (
-            <span>{onlineUsers.length} пользователей</span>
-          )}
         </HeaderInner>
       )}
       <HeaderMenuButton onClick={() => controlMenu(!isMenuOpen)}>
